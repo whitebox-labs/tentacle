@@ -1,7 +1,7 @@
-Tentacle Shield Hardware
+Tentacle Shield 
 ================
 
-These are the hardware source files for the Tentacle Shield - an arduino shield to interface with Atlas Scientific sensor circuits. 
+These are the hardware source files and examples for the Tentacle Shield - an arduino shield to interface with Atlas Scientific sensor circuits. 
 
 More info see here: https://www.whiteboxes.ch/tentacle
 
