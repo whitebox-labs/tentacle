@@ -1,8 +1,6 @@
-update=Mittwoch, 17. Juni 2015 01:45:21
+update=17/06/2015 02:21:59
 version=1
-last_client=eeschema
-[general]
-version=1
+last_client=kicad
 [pcbnew]
 version=1
 LastNetListRead=watersens.net
@@ -40,13 +38,7 @@ LibName14=led
 LibName15=dip_sockets
 LibName16=pga_sockets
 LibName17=valves
-LibName18=Arduino_Shield_Modules_for_KiCad_V3/arduino_shields
 LibDir=
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
 [eeschema]
 version=1
 LibDir=
@@ -87,4 +79,10 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=watersens
-LibName32=Arduino_Shield_Modules_for_KiCad_V3/arduino_shieldsNCL
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
+[general]
+version=1
