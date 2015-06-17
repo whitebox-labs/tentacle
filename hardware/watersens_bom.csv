@@ -1,0 +1,19 @@
+Id,Description,Package,Qty,Designator,Designation,Manufacturer,Manufacturer Part No.
+1,1x6-pin female header .1inch,.1 inch header,1,SHIELD1,ARDUINO_SHIELD,-,-
+2,1x8-pin female header .1inch,.1 inch header,2,SHIELD1,ARDUINO_SHIELD,-,-
+3,1x10-pin female header .1inch,.1 inch header,1,SHIELD1,ARDUINO_SHIELD,-,-
+4,LDO voltage regulator,SOT89,4,"REG1,REG2,REG3,REG4",LD2981ABU50TR,STMicroelectronics,LD2981ABU50TR
+5,UART multiplexer,SO16N,1,MUX1,74HCT4052D122,NXP Semiconductors,"74HCT4052D,112"
+6,Digital signal isolator,so-8,4,"SIG_ISO2,SIG_ISO3,SIG_ISO4,SIG_ISO1",SI8600,Silicon Labs,Si8600AC-B-IS
+7,"SMD resistor 4.7K, 1/8W",SM0805,19,"R16,R14,R12,R10,R8,R6,R4,R2,R17,R3,R1,R7,R5,R9,R11,R13,R15,R18,R19",4.7K,Vishay / Dale,CRCW08054K70FKEA
+8,Multilayer Ceramic Capacitor 0.1uF,SM0805,8,"C4,C9,C14,C19,C10,C5,C15,C20",0.1 µF,TDK,C2012X8R1H104K125AA
+9,Multilayer Ceramic Capacitor 1uF,SM0805,8,"C12,C2,C7,C17,C1,C6,C11,C16",1µF,TDK,CGA4J3X7R1H105K125AB
+10,Multilayer Ceramic Capacitor 2.2uF,SM0805,4,"C3,C8,C13,C18",2.2µF,TDX,CGA4J1X7R1V225K125AC
+11,Tantalum Capacitor 470uF,c_tant_x,1,C21,470µF,Kemet,T495X477K010ATE100
+12,1x3 male pin headers .1inch,1x3  .1 inch spacing male pin,1,JP9,JUMPER3,3M,929647-01-03-I
+13,2x3 male pin headers .1inch,2x3  .1 inch spacing male pin,4,"JP1,JP3,JP5,JP7,JP2,JP4,JP6,JP8",JUMPER3,3M,929665-01-03-I
+14,Tactile push button,B3S-1000P,1,SW1,SW_PUSH,Grayhill,95CW06C3JRT
+15,Isolated DC/DC converter 5V,R1SE_0505,4,"DCDC1,DCDC2,DCDC3,DCDC4",R1SE_0505,Recom,R1SE-0505-R
+16,BNC Connector,BNC-1337542,4,"P1,P2,P3,P4",BNC,TE Connectivity / AMP,1-1337542-0
+17,1x3-pin female header .1inch,1x3  .1 inch spacing female pin,8,"STP1,STP2,STP3,STP4",ATLAS_STAMP,FCI,66951-003LF
+18,Shorting jumper .1inch,.1 inch jumper,9,JP*,"JUMPER, JUMPER3",FCI,63429-202LF

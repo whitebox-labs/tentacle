@@ -1,0 +1,12 @@
+
+*.bak
+
+*.net
+
+*.ses
+
+*.dsn
+
+*.bck
+
+*.kicad_pcb-bak
