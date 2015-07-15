@@ -30,7 +30,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:watersens
-LIBS:arduino_shieldsNCL
 LIBS:watersens-cache
 EELAYER 27 0
 EELAYER END
@@ -38,7 +37,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "Tentacle Shield"
-Date "22 oct 2014"
+Date "15 jul 2015"
 Rev "T1.15A"
 Comp "Whitebox Labs"
 Comment1 "4 isolation, Dual Bus Design"
@@ -1313,7 +1312,6 @@ F 3 "" H 13700 1600 60  0000 C CNN
 	1    13700 1600
 	0    1    1    0   
 $EndComp
-NoConn ~ 13600 1750
 Text Notes 4550 1150 2    60   ~ 0
 PIN 1/2 : Stamp in 12C mode\nPIN 2/3 : Stamp in Serial mode
 Text Notes 7450 1150 2    60   ~ 0
@@ -2205,4 +2203,17 @@ Wire Wire Line
 	14300 9700 14350 9700
 Connection ~ 14300 9400
 Connection ~ 13900 9400
+$Comp
+L GND #PWR?
+U 1 1 55A67900
+P 13750 1750
+F 0 "#PWR?" H 13750 1750 30  0001 C CNN
+F 1 "GND" H 13750 1680 30  0001 C CNN
+F 2 "" H 13750 1750 60  0000 C CNN
+F 3 "" H 13750 1750 60  0000 C CNN
+	1    13750 1750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	13600 1750 13750 1750
 $EndSCHEMATC
