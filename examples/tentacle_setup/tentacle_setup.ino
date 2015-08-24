@@ -21,8 +21,8 @@ SoftwareSerial sftSerial(11, 10);        // RX, TX  - Name the software serial l
 
 const int s0 = 7;                        //Arduino pin 7 to control pin S0
 const int s1 = 6;                        //Arduino pin 6 to control pin S1
-const int enable_1 = 5;	            	 //Arduino pin 5 to control pin E on board 1
-const int enable_2 = 4;                  //Arduino pin 4 to control pin E on board 2
+const int enable_1 = 5;	            	 //Arduino pin 5 to control pin E on shield 1
+const int enable_2 = 4;                  //Arduino pin 4 to control pin E on shield 2
 
 char sensordata[30];                     //A 30 byte character array to hold incoming data from the sensors
 byte computer_bytes_received = 0;        //We need to know how many characters bytes have been received
