@@ -1,9 +1,12 @@
-
-//WhiteBox Labs -- Tentacle Shield -- Stemp Setup
-
+//
+//
+// WhiteBox Labs -- Tentacle Shield -- Circuit Setup
+//
 // Tool to help you setup multiple sensor circuits from Atlas Scientific
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
+//
+// USAGE:
 // -------------------------------------------------------------------------------------------------------------
 // To open a serial channel (numbered 0 - 7), send the number of the channel
 // To open a I2C address (between 8 - 127), send the number of the address
@@ -596,7 +599,7 @@ void scan() {                      // Scan all I2C addresses and UART ports for 
     if (change_channel()) {
       stamp_amount++;
 
-      serialPrintDivider()
+      serialPrintDivider();
       Serial.print(    F("-- I2C CHANNEL "));
       Serial.println(  channel);
       Serial.println(  F("--"));
@@ -610,7 +613,7 @@ void scan() {                      // Scan all I2C addresses and UART ports for 
     if (change_channel()) {
       stamp_amount++;
 
-      serialPrintDivider()
+      serialPrintDivider();
       Serial.print(    F("-- SERIAL CHANNEL "));
       Serial.println(  channel);
       Serial.println(  F("--"));
