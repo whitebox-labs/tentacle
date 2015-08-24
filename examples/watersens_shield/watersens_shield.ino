@@ -25,14 +25,14 @@ SoftwareSerial sftSerial(11, 10);   //RX, TX  - Name the software serial library
 									
 unsigned long serial_host = 9600;	//set baud rate for host serial monitor(pc/mac/other)
 
-unsigned long serial_ch0 = 9600;	//set baudrates for serial channels 0-7.
-unsigned long serial_ch1 = 9600;	//9600 (recommended) is the default rate for Atlas Scientific EZO stamps shipped after November 6th 2014
-unsigned long serial_ch2 = 9600;	//38400 is the default rate EZO and legacy devices shipped before this date.
-unsigned long serial_ch3 = 9600;	//other values allowed: 300,1200,2400,9600,19200,38400,57600,155200 
-unsigned long serial_ch4 = 9600;	//See the datasheet for your Atlas Scientific device for instructions on changing the default baud rate.
-unsigned long serial_ch5 = 9600;
-unsigned long serial_ch6 = 9600;
-unsigned long serial_ch7 = 9600;
+unsigned long serial_ch0 = 38400;	//set baudrates for serial channels 0-7.
+unsigned long serial_ch1 = 38400;	//9600 (recommended) is the default rate for Atlas Scientific EZO stamps shipped after November 6th 2014
+unsigned long serial_ch2 = 38400;	//38400 is the default rate EZO and legacy devices shipped before this date.
+unsigned long serial_ch3 = 38400;	//other values allowed: 300,1200,2400,9600,19200,38400,57600,155200 
+unsigned long serial_ch4 = 38400;	//See the datasheet for your Atlas Scientific device for instructions on changing the default baud rate.
+unsigned long serial_ch5 = 38400;
+unsigned long serial_ch6 = 38400;
+unsigned long serial_ch7 = 38400;
 
 int s0 = 7;                         //Arduino pin 7 to control pin S0
 int s1 = 6;                         //Arduino pin 6 to control pin S1
