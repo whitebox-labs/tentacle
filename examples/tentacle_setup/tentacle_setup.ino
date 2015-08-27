@@ -16,7 +16,7 @@
 #include <SoftwareSerial.h>              //Include the software serial library  
 #include <Wire.h>                	 //enable I2C.
 
-SoftwareSerial sftSerial(11, 10);        // RX, TX  - Name the software serial library sftSerial (this cannot be omitted)
+SoftwareSerial sSerial(11, 10);        // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
                                          // assigned to pins 10 and 11 for maximum compatibility
 
 const int s0 = 7;                        //Arduino pin 7 to control pin S0
@@ -61,7 +61,7 @@ void setup() {
 
   Serial.begin(38400);                   //Set the hardware serial port to 38400
   while (!Serial) ;                      // Leonardo-type arduinos need this to be able to write to the serial port in setup()
-  sftSerial.begin(38400);                //Set the soft serial port to 38400
+  sSerial.begin(38400);                //Set the soft serial port to 38400
   Wire.begin();                 	 //enable I2C port.
 
   stamp_type.reserve(16);                // reserve string buffer to save some SRAM
@@ -147,8 +147,8 @@ void loop() {
 
 
     if (I2C_mode == false) {				//if serial channel selected
-      sftSerial.print(cmd);                             //Send the command from the computer to the Atlas Scientific device using the softserial port
-      sftSerial.print("\r");                            //After we send the command we send a carriage return <CR>
+      sSerial.print(cmd);                             //Send the command from the computer to the Atlas Scientific device using the softserial port
+      sSerial.print("\r");                            //After we send the command we send a carriage return <CR>
     }
 
     else {						//if I2C address selected
@@ -162,8 +162,8 @@ void loop() {
     computer_bytes_received = 0;          //Reset the var computer_bytes_received to equal 0
   }
 
-  if (sftSerial.available() > 0) {                   			  //If data has been transmitted from an Atlas Scientific device
-    sensor_bytes_received = sftSerial.readBytesUntil(13, sensordata, 30); //we read the data sent from the Atlas Scientific device until we see a <CR>. We also count how many character have been received
+  if (sSerial.available() > 0) {                   			  //If data has been transmitted from an Atlas Scientific device
+    sensor_bytes_received = sSerial.readBytesUntil(13, sensordata, 30); //we read the data sent from the Atlas Scientific device until we see a <CR>. We also count how many character have been received
     sensordata[sensor_bytes_received] = 0;           			  //we add a 0 to the spot in the array just after the last character we received. This will stop us from transmitting incorrect data that may have been left in the buffer
     Serial.print(F("< "));
     Serial.println(sensordata);                    			  //let’s transmit the data received from the Atlas Scientific device to the serial monitor
@@ -236,7 +236,6 @@ byte I2C_call() {  					//function to parse and call I2C commands.
     while (Wire.available()) {            //are there bytes to receive.
       in_char = Wire.read();              //receive a byte.
 
-      //incur the counter for the array element.
       if (in_char == 0) {                 //if we see that we have been sent a null command.
         Wire.endTransmission();           //end the I2C data transmission.
         break;                            //exit the while loop.
@@ -344,7 +343,7 @@ boolean check_serial_connection() {                // check the selected serial 
 
   if (channelBaudrate[channel] > 0) {
 
-    sftSerial.begin(channelBaudrate[channel]);
+    sSerial.begin(channelBaudrate[channel]);
 
     while (retries < 3 && answerReceived == true) {
       answerReceived = false;
@@ -374,13 +373,13 @@ boolean scan_baudrates() {                               // scans baudrates to a
 
   for (int j = 0; j < 5; j++) {
     // TODO: make this work for legacy stuff and EZO in uart / continuous mode
-    sftSerial.begin(validBaudrates[j]);                  // open soft-serial port with a baudrate
-    sftSerial.print(F("\r"));
-    sftSerial.flush();                                   // buffers are full of junk, clean up
-    sftSerial.print(F("c,0\r"));                            // switch off continuous mode for new ezo-style stamps
+    sSerial.begin(validBaudrates[j]);                  // open soft-serial port with a baudrate
+    sSerial.print(F("\r"));
+    sSerial.flush();                                   // buffers are full of junk, clean up
+    sSerial.print(F("c,0\r"));                            // switch off continuous mode for new ezo-style stamps
     delay(150);
     //clearIncomingBuffer();                             // buffers are full of junk, clean up
-    sftSerial.print(F("e\r"));                              // switch off continous mode for legacy stamps
+    sSerial.print(F("e\r"));                              // switch off continous mode for legacy stamps
 
     delay(150);                                          // give the stamp some time to burp an answer
     clearIncomingBuffer();
@@ -404,12 +403,12 @@ boolean scan_baudrates() {                               // scans baudrates to a
 boolean request_serial_info() {                        // helper to request info from a uart stamp and parse the answer into the global stamp_ variables
 
   clearIncomingBuffer();
-  sftSerial.write("i");                                // send "i" which returns info on all versions of the stamps
-  sftSerial.write("\r");
+  sSerial.write("i");                                // send "i" which returns info on all versions of the stamps
+  sSerial.write("\r");
 
   delay(150);                			       // give it some time to send an answer
 
-  sensor_bytes_received = sftSerial.readBytesUntil(13, sensordata, 9); 	//we read the data sent from the Atlas Scientific device until we see a <CR>. We also count how many character have been received
+  sensor_bytes_received = sSerial.readBytesUntil(13, sensordata, 9); 	//we read the data sent from the Atlas Scientific device until we see a <CR>. We also count how many character have been received
 
   if (sensor_bytes_received > 0) {                     // there's an answer
     answerReceived = true;                             // so we can globally know if there was an answer on this channel
@@ -579,9 +578,9 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
 
 
 void clearIncomingBuffer() {          // "clears" the incoming soft-serial buffer
-  while (sftSerial.available() ) {
-    //Serial.print((char)sftSerial.read());
-    sftSerial.read();
+  while (sSerial.available() ) {
+    //Serial.print((char)sSerial.read());
+    sSerial.read();
   }
 }
 
