@@ -1,7 +1,7 @@
 
-// WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART example
+// WhiteBox Labs -- Tentacle Shield -- I2C example
 
-// Soft serial code based on Atlas Scientific reference designs found here:
+// Code based on Atlas Scientific reference designs found here:
 // https://www.atlas-scientific.com/_files/code/ph-i2c.pdf?
 //
 // updated to support I2C functionality for general purpose usage with dynamic response time.
