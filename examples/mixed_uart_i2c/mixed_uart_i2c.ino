@@ -237,7 +237,7 @@ void I2C_call() {  			        // function to parse and call I2C commands
         break;                         	// exits the switch case.
 
       case 254:                      	// decimal 254.
-        Serial.println("< command pending");   	// means the command has not yet been finished calculating.
+        //Serial.println("< command pending");   	// means the command has not yet been finished calculating.
         delay(200);                     // we wait for 200ms and give the circuit some time to complete the command
         break;                         	// exits the switch case.
 
