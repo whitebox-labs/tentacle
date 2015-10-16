@@ -38,7 +38,7 @@ encoding utf-8
 Sheet 1 1
 Title "Tentacle Shield"
 Date "15 jul 2015"
-Rev "T1.15A"
+Rev "T1.16"
 Comp "Whitebox Labs"
 Comment1 "4 isolation, Dual Bus Design"
 Comment2 ""

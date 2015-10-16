@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 17/06/2015 02:20:16
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 16/10/2015 07:33:58
 
 BeginCmp
 TimeStamp = /53E8542C;
@@ -438,7 +438,7 @@ BeginCmp
 TimeStamp = /54160BFE;
 Reference = SHIELD1;
 ValeurCmp = ARDUINO_SHIELD;
-IdModule  = ARDUINO_SHIELD_040pinsa;
+IdModule  = ARDUINO_SHIELD_040pinsa_no_outline;
 EndCmp
 
 BeginCmp
