@@ -37,7 +37,6 @@ String stamp_type;                       // hold the name / type of the stamp
 char stamp_version[4];                   // hold the version of the stamp
 
 char computerdata[20];           	 //we make a 20 byte character array to hold incoming data from a pc/mac/other.
-byte received_from_computer = 0;   	 //we need to know how many characters have been received.
 
 byte i2c_response_code = 0;              //used to hold the I2C response code.
 byte in_char = 0;                  	 //used as a 1 byte buffer to store in bound bytes from an I2C stamp.
@@ -463,7 +462,7 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
   // example:
   // PH EZO  -> '?I,pH,1.1'
   // ORP EZO -> '?I,OR,1.0'   (-> wrong in documentation 'OR' instead of 'ORP')
-  // DO EZO  -> '?I,D.O.,1.0'
+  // DO EZO  -> '?I,D.O.,1.0' || '?I,DO,1.7' (-> exists in D.O. and DO form)
   // EC EZO  -> '?I,EC,1.0 '
 
   // Legazy PH  -> 'P,V5.0,5/13'
@@ -494,6 +493,16 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
       return true;
 
       // DO EZO
+    }
+    else if (sensordata[3] == 'D' && sensordata[4] == 'O') {
+      stamp_type = F("D.O. EZO");
+      stamp_version[0] = sensordata[6];
+      stamp_version[1] = sensordata[7];
+      stamp_version[2] = sensordata[8];
+      stamp_version[3] = 0;
+      return true;
+
+      // D.O. EZO
     }
     else if (sensordata[3] == 'D' && sensordata[4] == '.' && sensordata[5] == 'O' && sensordata[6] == '.') {
       stamp_type = F("D.O. EZO");
