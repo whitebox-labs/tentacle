@@ -63,14 +63,21 @@ void setup() {
   pinMode(enable_2, OUTPUT);       //Set the digital pin as output.
 
   Serial.begin(9600);              //Set the hardware serial port to 9600
-  sSerial.begin(9600);            //Set the soft serial port to 9600 (change if all your devices use another baudrate)
+  sSerial.begin(9600);             //Set the soft serial port to 9600 (change if all your devices use another baudrate)
+  intro();                         // display startup message
 }
-
 
 
 void serialEvent() {              //This interrupt will trigger when the data coming from the serial monitor(pc/mac/other) is received
   computer_bytes_received = Serial.readBytesUntil(13, computerdata, 20); //We read the data sent from the serial monitor(pc/mac/other) until we see a <CR>. We also count how many characters have been received
   computerdata[computer_bytes_received] = 0; //We add a 0 to the spot in the array just after the last character we received.. This will stop us from transmitting incorrect data that may have been left in the buffer
+}
+
+
+void intro() {                                  // print intro
+  Serial.flush();
+  Serial.println(" ");
+  Serial.println("READY_");
 }
 
 
@@ -156,6 +163,3 @@ void open_channel() {                        //This function controls what UART 
       break;
   }
 }
-
-
-
