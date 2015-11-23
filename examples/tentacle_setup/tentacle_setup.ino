@@ -1,17 +1,35 @@
-//
-//
 // WhiteBox Labs -- Tentacle Shield -- Circuit Setup
 //
 // Tool to help you setup multiple sensor circuits from Atlas Scientific
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
 //
+// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
+// This code does not work on the Arduino YUN; see the YUN examples.
+//
 // USAGE:
-// -------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+// Set host serial terminal to 9600 baud
 // To open a serial channel (numbered 0 - 7), send the number of the channel
 // To open a I2C address (between 8 - 127), send the number of the address
 // To issue a command, enter it directly to the console.
+//
+//---------------------------------------------------------------------------------------------
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// at your option) any later version.
 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------------------------------------
 
 #include <SoftwareSerial.h>              //Include the software serial library  
 #include <Wire.h>                	 //enable I2C.
@@ -58,7 +76,7 @@ void setup() {
   pinMode(enable_1, OUTPUT);             //Set the digital pin as output.
   pinMode(enable_2, OUTPUT);             //Set the digital pin as output.
 
-  Serial.begin(38400);                   //Set the hardware serial port to 38400
+  Serial.begin(9600);                   //Set the hardware serial port to 38400
   while (!Serial) ;                      // Leonardo-type arduinos need this to be able to write to the serial port in setup()
   sSerial.begin(38400);                //Set the soft serial port to 38400
   Wire.begin();                 	 //enable I2C port.
@@ -84,7 +102,10 @@ void loop() {
       computer_bytes_received = 0;               //Reset the var computer_bytes_received to equal 0
       return;
     }
-    else if (String(cmd) == F("i2cc")) {
+    else if (String(cmd) == F("scani2c")) {
+      scan(false);
+      computer_msg_complete = false;             //Reset the var computer_msg_complete to be ready for the next command
+      return;
     }
     else {
 
@@ -595,10 +616,15 @@ void clearIncomingBuffer() {          // "clears" the incoming soft-serial buffe
 
 
 
-void scan() {                      // Scan all I2C addresses and UART ports for connected stamps
+void scan(boolean scanserial) {                      // Scan for all devices. Set scanserial to false to scan I2C only (much faster!)
 
-  Serial.println(F("Starting scan... this might take up to a minute."));
-
+  if (scanserial) {
+    Serial.println(F("Starting scan... this might take up to a minute."));
+    Serial.println(F("(if only using i2c mode, use 'scani2c' to scan faster)"));
+  } else {
+    Serial.println(F("Starting  I2C scan..."));
+  }
+  
   int stamp_amount = 0;
 
   for (channel = 8; channel < 127; channel++ )
@@ -616,19 +642,21 @@ void scan() {                      // Scan all I2C addresses and UART ports for 
     }
   }
 
-  for (channel = 0; channel < 8; channel++) {
-
-    if (change_channel()) {
-      stamp_amount++;
-
-      serialPrintDivider();
-      Serial.print(    F("-- SERIAL CHANNEL "));
-      Serial.println(  channel);
-      Serial.println(  F("--"));
-      Serial.print(    F("-- Type: "));
-      Serial.println(  stamp_type);
-      Serial.print(    F("-- Baudrate: "));
-      Serial.println(  channelBaudrate[channel]);
+  if (scanserial) {
+    for (channel = 0; channel < 8; channel++) {
+  
+      if (change_channel()) {
+        stamp_amount++;
+  
+        serialPrintDivider();
+        Serial.print(    F("-- SERIAL CHANNEL "));
+        Serial.println(  channel);
+        Serial.println(  F("--"));
+        Serial.print(    F("-- Type: "));
+        Serial.println(  stamp_type);
+        Serial.print(    F("-- Baudrate: "));
+        Serial.println(  channelBaudrate[channel]);
+      }
     }
   }
 
@@ -647,6 +675,7 @@ void intro() {                                 			       //print intro
   Serial.println( F("For info type 'help'"));
   Serial.println( F("To read current config from attached stamps type 'scan'"));
   Serial.println( F(" (e.g. if you've changed baudrates)"));
+  Serial.println( F("To read current config from attached I2C stamps only, type 'scani2c'"));
   Serial.println( F("TYPE CHANNEL NUMBER (Serial: 0-7, I2C: 8-127):"));
 }
 
