@@ -1,18 +1,37 @@
-//
-//
 // WhiteBox Labs -- Tentacle Shield -- Circuit Setup
-//
-//  FOR ARDUINO YUN 
 //
 // Tool to help you setup multiple sensor circuits from Atlas Scientific
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
 //
+// This sample code was written on an Arduino YUN, and depends on it's Bridge library.
+// For Arduino Mega, Uno etc, see the respective examples.
+//
 // USAGE:
-// -------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+// To talk to the Yun console, select your Yun's name and IP address in the Port menu.
+// The Yun will only show up in the Ports menu if your computer is on the same LAN as the Yun.
+//
 // To open a serial channel (numbered 0 - 7), send the number of the channel
 // To open a I2C address (between 8 - 127), send the number of the address
 // To issue a command, enter it directly to the console.
+//
+//---------------------------------------------------------------------------------------------
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------------------------------------
 
 
 #include <SoftwareSerial.h>              //Include the software serial library  
@@ -20,7 +39,7 @@
 #include <Console.h>                     // Yun Console
 
 SoftwareSerial sSerial(11, 10);        // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
-                                         // assigned to pins 10 and 11 for maximum compatibility
+// assigned to pins 10 and 11 for maximum compatibility
 
 const int s0 = 7;                        //Arduino pin 7 to control pin S0
 const int s1 = 6;                        //Arduino pin 6 to control pin S1
@@ -62,10 +81,10 @@ void setup() {
   pinMode(s0, OUTPUT);                   //Set the digital pin as output.
   pinMode(enable_1, OUTPUT);             //Set the digital pin as output.
   pinMode(enable_2, OUTPUT);             //Set the digital pin as output.
-  
+
   // initialize serial communication over network:
   Bridge.begin();
-  Console.begin(); 
+  Console.begin();
   while (!Console) ;                     // wait for Console port to connect.
   sSerial.begin(38400);                  //Set the soft serial port to 38400
   Wire.begin();                 	 //enable I2C port.
@@ -77,42 +96,39 @@ void setup() {
 
 
 void loop() {
-  
-      
-      while (Console.available()>0) {
-        computer_in_byte = Console.read();
-        //Console.println(computer_in_byte);
-        
-        if (computer_in_byte == 10) {
-          
-          computerdata[computer_bytes_received] = 0;
-          computer_msg_complete = true;
-          computer_bytes_received = 0;
-        } else {
-          computerdata[computer_bytes_received] = computer_in_byte;
-          computer_bytes_received++; 
-        }
-      }
-  
-
-   //computer_bytes_received = Console.readBytesUntil(13, computerdata, 20); 	//We read the data sent from the serial monitor(pc/mac/other) until we see a <CR>. We also count how many characters have been received
-  //computerdata[computer_bytes_received] = 0; 					//We add a 0 to the spot in the array just after the last character we received.. This will stop us from transmitting incorrect data that may have been left in the buffer
 
 
-  if (computer_msg_complete) {            //If input recieved from PC/MAC/other
+  while (Console.available() > 0) {              // On Yun, there's no serialEvent(), so we read all data from the console here
+    computer_in_byte = Console.read();           // read a byte
+    //Console.println(computer_in_byte);
+
+    if (computer_in_byte == '\n' || computer_in_byte == '\r') {      // if a newline character arrives, we assume a complete command has been received
+      computerdata[computer_bytes_received] = 0;
+      computer_msg_complete = true;
+      computer_bytes_received = 0;
+    } else {                                     // or just ad the byte to 
+      computerdata[computer_bytes_received] = computer_in_byte;
+      computer_bytes_received++;
+    }
+  }
+
+  if (computer_msg_complete) {                   //If input recieved from PC/MAC/other
     cmd = computerdata;                          //Set cmd with incoming serial data
 
     if (String(cmd) == F("help")) {		 //if help entered...
       help(); 					 //call help dialogue
-      computer_msg_complete = false;               //Reset the var computer_bytes_received to equal 0
+      computer_msg_complete = false;             //Reset the var computer_msg_complete to be ready for the next command
       return;
     }
     else if (String(cmd) == F("scan")) {         // if scan requested
-      scan();
-      computer_msg_complete = false;               //Reset the var computer_bytes_received to equal 0
+      scan(true);
+      computer_msg_complete = false;             //Reset the var computer_msg_complete to be ready for the next command
       return;
     }
-    else if (String(cmd) == F("i2cc")) {
+    else if (String(cmd) == F("scani2c")) {
+      scan(false);
+      computer_msg_complete = false;             //Reset the var computer_msg_complete to be ready for the next command
+      return;
     }
     else {
 
@@ -147,7 +163,7 @@ void loop() {
             Console.println(F("CHANNEL NOT AVAILABLE! Empty slot? Different COM-mode?"));
             Console.println(F("Try 'scan' or set baudrate manually (see 'help')."));
           }
-          computer_msg_complete = false;                   //Reset the var computer_bytes_received to equal 0
+          computer_msg_complete = false;                   //Reset the var computer_msg_complete to be ready for the next command
           return;
         }
       }
@@ -158,7 +174,7 @@ void loop() {
           Console.println(validBaudrates[x]);
           channelBaudrate[channel] = validBaudrates[x];
           String(channel).toCharArray(cmd, 4);            // do a "fake" command for the next loop-run, as if the channel number was entered again (will refresh info with the manually set baudrate)
-          return;                                         // do not set computer_bytes_received to 0, so the channel-command gets handled right away
+          return;                                         // do not set computer_msg to false, so the channel-command gets handled right away
         }
       }
 
@@ -186,7 +202,7 @@ void loop() {
       }
     }
 
-    computer_msg_complete = false;          //Reset the var computer_bytes_received to equal 0
+    computer_msg_complete = false;          //Reset the var computer_msg_complete to be ready for the next command
   }
 
   if (sSerial.available() > 0) {                   			  //If data has been transmitted from an Atlas Scientific device
@@ -197,15 +213,6 @@ void loop() {
   }
 
 }
-
-
-/* This interrupt will trigger when the data coming from the serial monitor(pc/mac/other) is received
-void serialEvent() {
-  computer_bytes_received = Console.readBytesUntil(13, computerdata, 20); 	//We read the data sent from the serial monitor(pc/mac/other) until we see a <CR>. We also count how many characters have been received
-  computerdata[computer_bytes_received] = 0; 					//We add a 0 to the spot in the array just after the last character we received.. This will stop us from transmitting incorrect data that may have been left in the buffer
-}
-
-*/
 
 boolean change_channel() {                                 //function controls which UART/I2C port is opened. returns true if channel could be changed.
 
@@ -623,10 +630,15 @@ void clearIncomingBuffer() {          // "clears" the incoming soft-serial buffe
 
 
 
-void scan() {                      // Scan all I2C addresses and UART ports for connected stamps
+void scan(boolean scanserial) {                      // Scan for all devices. Set scanserial to false to scan I2C only (much faster!)
 
-  Console.println(F("Starting scan... this might take up to a minute."));
-
+  if (scanserial) {
+    Console.println(F("Starting scan... this might take up to a minute."));
+    Console.println(F("(if only using i2c mode, use 'scani2c' to scan faster)"));
+  } else {
+    Console.println(F("Starting  I2C scan..."));
+  }
+  
   int stamp_amount = 0;
 
   for (channel = 8; channel < 127; channel++ )
@@ -644,19 +656,21 @@ void scan() {                      // Scan all I2C addresses and UART ports for 
     }
   }
 
-  for (channel = 0; channel < 8; channel++) {
-
-    if (change_channel()) {
-      stamp_amount++;
-
-      serialPrintDivider();
-      Console.print(    F("-- SERIAL CHANNEL "));
-      Console.println(  channel);
-      Console.println(  F("--"));
-      Console.print(    F("-- Type: "));
-      Console.println(  stamp_type);
-      Console.print(    F("-- Baudrate: "));
-      Console.println(  channelBaudrate[channel]);
+  if (scanserial) {
+    for (channel = 0; channel < 8; channel++) {
+  
+      if (change_channel()) {
+        stamp_amount++;
+  
+        serialPrintDivider();
+        Console.print(    F("-- SERIAL CHANNEL "));
+        Console.println(  channel);
+        Console.println(  F("--"));
+        Console.print(    F("-- Type: "));
+        Console.println(  stamp_type);
+        Console.print(    F("-- Baudrate: "));
+        Console.println(  channelBaudrate[channel]);
+      }
     }
   }
 
@@ -675,6 +689,7 @@ void intro() {                                 			       //print intro
   Console.println( F("For info type 'help'"));
   Console.println( F("To read current config from attached stamps type 'scan'"));
   Console.println( F(" (e.g. if you've changed baudrates)"));
+  Console.println( F("To read current config from attached I2C stamps only, type 'scani2c'"));
   Console.println( F("TYPE CHANNEL NUMBER (Serial: 0-7, I2C: 8-127):"));
 }
 
