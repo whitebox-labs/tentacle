@@ -46,7 +46,6 @@ int channel;                        // INT pointer for channel switching - 0-7 s
 char *cmd;                          //Char pointer used in string parsing
 
 char computerdata[48];              // we make a 20 byte character array to hold incoming data from a pc/mac/other.
-byte received_from_computer = 0;    // we need to know how many characters have been received.
 byte code = 0;                      // used to hold the I2C response code.
 byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the EC Circuit.
 int time;                   	    // used to change the dynamic polling delay needed for I2C read operations.
