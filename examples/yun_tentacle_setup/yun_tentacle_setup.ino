@@ -82,9 +82,8 @@ void setup() {
   pinMode(enable_1, OUTPUT);             //Set the digital pin as output.
   pinMode(enable_2, OUTPUT);             //Set the digital pin as output.
 
-  // initialize serial communication over network:
   Bridge.begin();
-  Console.begin();
+  Console.begin();                       // initialize serial communication over network
   while (!Console) ;                     // wait for Console port to connect.
   sSerial.begin(38400);                  //Set the soft serial port to 38400
   Wire.begin();                 	 //enable I2C port.
@@ -100,7 +99,6 @@ void loop() {
 
   while (Console.available() > 0) {              // On Yun, there's no serialEvent(), so we read all data from the console here
     computer_in_byte = Console.read();           // read a byte
-    //Console.println(computer_in_byte);
 
     if (computer_in_byte == '\n' || computer_in_byte == '\r') {      // if a newline character arrives, we assume a complete command has been received
       computerdata[computer_bytes_received] = 0;
