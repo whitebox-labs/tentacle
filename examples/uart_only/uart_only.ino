@@ -1,16 +1,17 @@
-//
-//
 // WhiteBox Labs -- Tentacle Shield --  UART example
 //
 // Simple example on how to use 4 (or 8 if using 2 Tentacle shields) Atlas Scientivic devices
 // in serial mode. This sketch assumes all of your devices are either older serial devices or
 // EZO circuits in serial mode. You can use the tentacle_setup.ino to autodetect and setup your devices.
 //
+// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
+// This code does not work on the Arduino YUN; see the YUN examples.
+//
+// USAGE:
+//---------------------------------------------------------------------------------------------
+// Set host serial terminal to 9600 baud
 // Serial channel numbers are 0-3. Channels 4-7 are also available, if you're using two stacked
 // Tentacle shields.
-//
-// This code is based on https://www.atlas-scientific.com/_files/code/8-port-board.pdf
-//
 // To open a channel send the number of the channel, a colon and the command ending with a carriage return.
 //
 // 0:r<CR>
@@ -18,6 +19,23 @@
 // 2:c<CR>
 // 3:r<CR>
 // Channels on the second shield are called 4-7
+//
+//---------------------------------------------------------------------------------------------
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------------------------------------
 
 #include <SoftwareSerial.h>         //Include the software serial library  
 

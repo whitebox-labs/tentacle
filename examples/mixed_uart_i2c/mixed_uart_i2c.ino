@@ -1,16 +1,14 @@
-
 // WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART example
-
-// Soft serial code based on Atlas Scientific reference designs found here:
-// https://www.atlas-scientific.com/_files/code/serial_port_connector_arduino_uno_2.pdf
-// updated to support native Arduino 1.0 Soft Serial on multiple platforms.
-// updated to support I2C functionality for general purpose usage with dynamic response time.
-// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO, Leonardo in mind.
+//
+// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
+// This code does not work on the Arduino YUN; see the YUN examples.
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or the I2C bus
-//-------------------------------------------------------------------------------------------------------------
+//
+// USAGE:
+//---------------------------------------------------------------------------------------------
 // Set host serial terminal to 9600 baud
 // Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
-//------------------------------------------------------------------------------------------------------------
+//
 // To send a command, send the number of the channel,
 // a colon and the command ending with a carriage return.
 // serial channels are  numbered 0 - 7
@@ -22,6 +20,23 @@
 // 3:c<CR>
 // 99:r<CR>
 // 110:cal,mid,7.00<CR>
+//
+//---------------------------------------------------------------------------------------------
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//---------------------------------------------------------------------------------------------
 
 
 #include <SoftwareSerial.h>      // Include the software serial library  
