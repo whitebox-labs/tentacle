@@ -98,13 +98,13 @@ void loop() {
       return;
     }
     else if (String(cmd) == F("scan")) {         // if scan requested
-      scan();
+      scan(true);
       computer_bytes_received = 0;               //Reset the var computer_bytes_received to equal 0
       return;
     }
     else if (String(cmd) == F("scani2c")) {
       scan(false);
-      computer_msg_complete = false;             //Reset the var computer_msg_complete to be ready for the next command
+      computer_bytes_received = 0;               //Reset the var computer_bytes_received to equal 0
       return;
     }
     else {
