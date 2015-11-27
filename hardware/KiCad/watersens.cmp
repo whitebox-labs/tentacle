@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 17/10/2015 07:13:39
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 27/11/2015 18:12:05
 
 BeginCmp
 TimeStamp = /53E8542C;
@@ -11,14 +11,14 @@ BeginCmp
 TimeStamp = /53386568;
 Reference = C2;
 ValeurCmp = 1µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /5338738C;
 Reference = C3;
 ValeurCmp = 2.2µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
@@ -46,14 +46,14 @@ BeginCmp
 TimeStamp = /53549A99;
 Reference = C7;
 ValeurCmp = 1µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /53549A9F;
 Reference = C8;
 ValeurCmp = 2.2µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
@@ -81,14 +81,14 @@ BeginCmp
 TimeStamp = /53549AE8;
 Reference = C12;
 ValeurCmp = 1µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /53549AEE;
 Reference = C13;
 ValeurCmp = 2.2µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
@@ -116,14 +116,14 @@ BeginCmp
 TimeStamp = /53549B37;
 Reference = C17;
 ValeurCmp = 1µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /53549B3D;
 Reference = C18;
 ValeurCmp = 2.2µF;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
@@ -389,7 +389,7 @@ BeginCmp
 TimeStamp = /53E88269;
 Reference = R17;
 ValeurCmp = 4.7K;
-IdModule  = SM0805a;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp

@@ -1,6 +1,6 @@
-update=Mittwoch, 17. Juni 2015 02:41:11
+update=27/11/2015 18:12:57
 version=1
-last_client=eeschema
+last_client=kicad
 [pcbnew]
 version=1
 LastNetListRead=watersens.net
@@ -44,8 +44,6 @@ version=1
 NetIExt=net
 [cvpcb/libraries]
 EquName1=devcms
-[general]
-version=1
 [eeschema]
 version=1
 LibDir=
@@ -86,3 +84,5 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=watersens
+[general]
+version=1
