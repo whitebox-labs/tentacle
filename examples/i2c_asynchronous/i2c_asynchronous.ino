@@ -40,7 +40,7 @@
 
 #include <Wire.h>                              // enable I2C.
 
-#define TOTAL_CIRCUITS 3                       // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle
+#define TOTAL_CIRCUITS 4                       // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle
 
 const unsigned int serial_host  = 9600;        // set baud rate for host serial monitor(pc/mac/other)
 const unsigned int send_readings_every = 5000; // set at what intervals the readings are sent to the computer (NOTE: this is not the frequency of taking the readings!)
@@ -51,17 +51,17 @@ byte sensor_bytes_received = 0;               // We need to know how many charac
 byte code = 0;                                // used to hold the I2C response code.
 byte in_char = 0;                             // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 
-int channel_ids[] = {99, 101, 102};           // <-- CHANGE THIS | a list of I2C ids that you set your circuits to
-String channel_names[] {"PH", "EC", "ORP"};   // <-- CHANGE THIS | a list of channel names (must line up with channel_ids[]) - only used to designate the readings in serial communications
+int channel_ids[] = {97, 98, 99, 100};        // <-- CHANGE THIS. A list of I2C ids that you set your circuits to.
+String channel_names[] {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (must be the same order as in channel_ids[]) - only used to designate the readings in serial communications
 String readings[TOTAL_CIRCUITS];              // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
 const unsigned int reading_delay = 1400;      // most circuits need 1400ms to process a reading request before being ready to send the data.
-unsigned long next_reading_time;              // holds the time when the next reading should be ready to read from the circuit
-unsigned long next_request_time;              // holds the time when the next reading should be initiated
-boolean request_pending = false;              // keeps track if we're currently waiting for a reading
+unsigned long next_reading_time;              // holds the time when the next reading should be ready from the circuit
+unsigned long next_request_time;              // holds the time when the next reading should be requested
+boolean request_pending = false;              // wether or not we're waiting for a reading
 
-const unsigned int blink_frequency = 100;     // the frequency the led should blink
+const unsigned int blink_frequency = 250;     // the frequency of the led blinking, in milliseconds
 unsigned long next_blink_time;                // holds the next time the led should change state
 boolean led_state = LOW;                      // keeps track of the current led state
 
@@ -71,7 +71,7 @@ void setup() {
   pinMode(13, OUTPUT);                        // set the led output pin
   Serial.begin(serial_host);	              // Set the hardware serial port.
   Wire.begin();			              // enable I2C port.
-  next_serial_time = millis() + send_readings_every;  // calculate the next time for the serial communication
+  next_serial_time = millis() + send_readings_every;  // calculate the next point in time we should do serial communications
 }
 
 
@@ -80,7 +80,7 @@ void loop() {
   do_sensor_readings();
   do_serial();
 
-  // Do other "asynchronous" tasks here (Blink Leds, Network communcation, etc)
+  // Do other stuff here (Blink Leds, update a display, etc)
   
   blink_led();
 }
@@ -98,7 +98,7 @@ void blink_led() {
 
 
 
-// handles serial communication in a "asynchronous" way
+// do serial communication in a "asynchronous" way
 void do_serial() {
   if (millis() >= next_serial_time) {                // is it time for the next serial communication?
     for (int i = 0; i < TOTAL_CIRCUITS; i++) {       // loop through all the sensors
@@ -111,7 +111,7 @@ void do_serial() {
 }
 
 
-// handles taking sensor readings in a "asynchronous" way
+// take sensor readings in a "asynchronous" way
 void do_sensor_readings() {
   if (request_pending) {                          // is a request pending?
     if (millis() >= next_reading_time) {          // is it time for the reading to be taken?
@@ -159,7 +159,6 @@ void receive_reading() {
       sensor_bytes_received++;
     }
   }
-
 
   switch (code) {                  	    // switch case based on what the response code is.
     case 1:                       	    // decimal 1  means the command was successful.
