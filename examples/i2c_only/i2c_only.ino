@@ -1,16 +1,20 @@
 // WhiteBox Labs -- Tentacle Shield -- I2C example
 //
-// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
-// This code does not work on the Arduino YUN; see the YUN examples.
+// This code is intended to work on all Arduinos. If using the Arduino Yun, connect
+// to it's serial port. If you want to work with the Yun wirelessly, check out the respective
+// Yun version of this example.
 // It will allow you to control up to 8 Atlas Scientific devices through the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// Set host serial terminal to 9600 baud
+// - Set all your EZO circuits to I2C before using this sketch.
+//    - You can use the "tentacle-steup.ino" sketch to do so)
+//    - Make sure each circuit has a unique I2C ID set 
+// - Set host serial terminal to 9600 baud
 //
-// To send a command, send the number of the i2c address,
-// a colon and the command ending with a carriage return.
-// To issue a command, enter it directly to the console.
+// - To send a command, send the number of the i2c address, a colon and the command ending with a carriage return.
+//
+// - To issue a command, enter it directly to the console.
 //
 // 102:r<CR>
 // 99:i<CR>
@@ -43,11 +47,11 @@ char sensordata[30];                // A 30 byte character array to hold incomin
 byte computer_bytes_received = 0;   // We need to know how many characters bytes have been received
 byte sensor_bytes_received = 0;     // We need to know how many characters bytes have been received
 int channel;                        // INT pointer for channel switching - 0-7 serial, 8-127 I2C addresses
-char *cmd;                          //Char pointer used in string parsing
+char *cmd;                          // Char pointer used in string parsing
 
 char computerdata[48];              // we make a 20 byte character array to hold incoming data from a pc/mac/other.
 byte code = 0;                      // used to hold the I2C response code.
-byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the EC Circuit.
+byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 int time;                   	    // used to change the dynamic polling delay needed for I2C read operations.
 
 
@@ -102,7 +106,7 @@ void I2C_call() {  			        // function to parse and call I2C commands
 
   code = 254;				// init code value
 
-  while (code == 254) {                 // in case the cammand takes longer to process, we
+  while (code == 254) {                 // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
     Wire.requestFrom(channel, 48, 1);   // call the circuit and request 48 bytes (this is more then we need).
     code = Wire.read();

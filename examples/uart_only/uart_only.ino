@@ -4,21 +4,21 @@
 // in serial mode. This sketch assumes all of your devices are either older serial devices or
 // EZO circuits in serial mode. You can use the tentacle_setup.ino to autodetect and setup your devices.
 //
-// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
-// This code does not work on the Arduino YUN; see the YUN examples.
+// This code is intended to work on all Arduinos. If using the Arduino Yun, connect
+// to it's serial port. If you want to work with the Yun wirelessly, check out the respective
+// Yun version of this example.
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// Set host serial terminal to 9600 baud
-// Serial channel numbers are 0-3. Channels 4-7 are also available, if you're using two stacked
-// Tentacle shields.
-// To open a channel send the number of the channel, a colon and the command ending with a carriage return.
+// - Set host serial terminal to 9600 baud
+//  - Serial channel numbers are 0-3
+//    ( Channels 4-7 are also available, if you're using two stacked Tentacle shields)
+// - To open a channel send the number of the channel, a colon and the command ending with a carriage return.
 //
 // 0:r<CR>
 // 1:i<CR>
 // 2:c<CR>
 // 3:r<CR>
-// Channels on the second shield are called 4-7
 //
 //---------------------------------------------------------------------------------------------
 //

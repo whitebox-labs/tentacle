@@ -1,21 +1,22 @@
 // WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART example
 //
-// This sample code was written on an Arduino YUN, and depends on it's Bridge library.
+// This sample code was written on an Arduino YUN, and depends on it's Bridge library to
+// communicate wirelessly.
 // For Arduino Mega, Uno etc, see the respective examples.
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// To talk to the Yun console, select your Yun's name and IP address in the Port menu.
-// The Yun will only show up in the Ports menu if your computer is on the same LAN as the Yun.
+// - To talk to the Yun console, select your Yun's name and IP address in the Port menu.
+//    - The Yun will only show up in the Ports menu, if your computer is on the same Network as the Yun.
 //
-// Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
+// - Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
 //
-// To send a command, send the number of the channel,
-// a colon and the command ending with a carriage return.
-// serial channels are  numbered 0 - 7
-// i2c addresses are numbered 8 - 127
-// To issue a command, enter it directly to the console.
+// - To send a command, send the number of the channel, a colon and the command ending with a carriage return.
+//   - serial channels are  numbered 0 - 7
+//   - i2c addresses are numbered 8 - 127
+//
+// - To issue a command, enter it directly to the console.
 //
 // 1:r<CR>
 // 2:i<CR>
@@ -73,7 +74,7 @@ int computer_in_byte;               // a variable to read incoming console data 
 boolean computer_msg_complete = false;
 
 byte code = 0;                      // used to hold the I2C response code.
-byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the EC Circuit.
+byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 int time;                   	    // used to change the dynamic polling delay needed for I2C read operations.
 
 boolean I2C_mode = false;	    // bool switch for serial/I2C
@@ -235,7 +236,7 @@ void I2C_call() {  			        // function to parse and call I2C commands
 
   code = 254;				// init code value
 
-  while (code == 254) {                 // in case the cammand takes longer to process, we
+  while (code == 254) {                 // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
     Wire.requestFrom(channel, 48, 1);   // call the circuit and request 48 bytes (this is more then we need).
     code = Wire.read();

@@ -1,19 +1,20 @@
 // WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART example
 //
-// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
-// This code does not work on the Arduino YUN; see the YUN examples.
+// This code is intended to work on all Arduinos. If using the Arduino Yun, connect
+// to it's serial port. If you want to work with the Yun wirelessly, check out the respective
+// Yun version of this example.
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// Set host serial terminal to 9600 baud
-// Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
+// - Set host serial terminal to 9600 baud
+// - Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
 //
-// To send a command, send the number of the channel,
-// a colon and the command ending with a carriage return.
-// serial channels are  numbered 0 - 7
-// i2c addresses are numbered 8 - 127
-// To issue a command, enter it directly to the console.
+// - To send a command, send the number of the channel, a colon and the command ending with a carriage return.
+//   - serial channels are  numbered 0 - 7
+//   - i2c addresses are numbered 8 - 127
+// 
+// - To issue a command, enter it directly to the console.
 //
 // 1:r<CR>
 // 2:i<CR>
@@ -70,7 +71,7 @@ char *cmd;                          //Char pointer used in string parsing
 char computerdata[48];              // we make a 20 byte character array to hold incoming data from a pc/mac/other.
 
 byte code = 0;                      // used to hold the I2C response code.
-byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the EC Circuit.
+byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 int time;                   	    // used to change the dynamic polling delay needed for I2C read operations.
 
 boolean I2C_mode = false;	    // bool switch for serial/I2C
@@ -223,7 +224,7 @@ void I2C_call() {  			        // function to parse and call I2C commands
 
   code = 254;				// init code value
 
-  while (code == 254) {                 // in case the cammand takes longer to process, we
+  while (code == 254) {                 // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
     Wire.requestFrom(channel, 48, 1);   // call the circuit and request 48 bytes (this is more then we need).
     code = Wire.read();

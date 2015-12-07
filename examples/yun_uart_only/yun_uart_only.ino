@@ -4,23 +4,25 @@
 // in serial mode. This sketch assumes all of your devices are either older serial devices or
 // EZO circuits in serial mode. You can use the tentacle_setup.ino to autodetect and setup your devices.
 //
-// This sample code was written on an Arduino YUN, and depends on it's Bridge library.
+// This sample code was written on an Arduino YUN, and depends on it's Bridge library to
+// communicate wirelessly.
 // For Arduino Mega, Uno etc, see the respective examples.
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// To talk to the Yun console, select your Yun's name and IP address in the Port menu.
-// The Yun will only show up in the Ports menu if your computer is on the same LAN as the Yun.
+// - To talk to the Yun console, select your Yun's name and IP address in the Port menu.
+//    - The Yun will only show up in the Ports menu, if your computer is on the same Network as the Yun.
 //
-// Serial channel numbers are 0-3. Channels 4-7 are also available, if you're using two stacked
-// Tentacle shields.
-// To open a channel send the number of the channel, a colon and the command ending with a carriage return.
+// - Serial channel numbers are 0-3
+//   ( Channels 4-7 are also available, if you're using two stacked Tentacle shields)
+//
+// - To open a channel send the number of the channel, a colon and the command ending with a carriage return.
 //
 // 0:r<CR>
 // 1:i<CR>
 // 2:c<CR>
 // 3:r<CR>
-// Channels on the second shield are called 4-7
+//
 //---------------------------------------------------------------------------------------------
 //
 // This program is free software: you can redistribute it and/or modify

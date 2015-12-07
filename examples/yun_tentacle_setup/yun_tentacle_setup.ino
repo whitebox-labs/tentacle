@@ -4,17 +4,18 @@
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
 //
-// This sample code was written on an Arduino YUN, and depends on it's Bridge library.
+// This sample code was written on an Arduino YUN, and depends on it's Bridge library to
+// communicate wirelessly.
 // For Arduino Mega, Uno etc, see the respective examples.
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// To talk to the Yun console, select your Yun's name and IP address in the Port menu.
-// The Yun will only show up in the Ports menu if your computer is on the same LAN as the Yun.
+// - To talk to the Yun console, select your Yun's name and IP address in the Port menu.
+//    - The Yun will only show up in the Ports menu, if your computer is on the same Network as the Yun.
 //
-// To open a serial channel (numbered 0 - 7), send the number of the channel
-// To open a I2C address (between 8 - 127), send the number of the address
-// To issue a command, enter it directly to the console.
+// - To open a serial channel (numbered 0 - 7), send the number of the channel
+// - To open a I2C address (between 8 - 127), send the number of the address
+// - To issue a command, enter it directly to the console.
 //
 //---------------------------------------------------------------------------------------------
 //
@@ -251,7 +252,7 @@ byte I2C_call() {  					//function to parse and call I2C commands.
   Wire.endTransmission();          	                //end the I2C data transmission.
 
   i2c_response_code = 254;
-  while (i2c_response_code == 254) {      // in case the stamp takes longer to process than we expected
+  while (i2c_response_code == 254) {      // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
     if (String(cmd).startsWith(F("cal")) || String(cmd).startsWith(F("Cal")) ) {
       delay(1400);                        // cal-commands take 1300ms or more

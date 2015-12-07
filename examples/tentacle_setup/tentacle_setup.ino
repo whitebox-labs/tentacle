@@ -4,15 +4,16 @@
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
 //
-// This sample code was written on an Arduino MEGA, with cross-compatibility for UNO in mind.
-// This code does not work on the Arduino YUN; see the YUN examples.
+// This code is intended to work on all Arduinos. If using the Arduino Yun, connect
+// to it's serial port. If you want to work with the Yun wirelessly, check out the respective
+// Yun version of this example.
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
-// Set host serial terminal to 9600 baud
-// To open a serial channel (numbered 0 - 7), send the number of the channel
-// To open a I2C address (between 8 - 127), send the number of the address
-// To issue a command, enter it directly to the console.
+// - Set host serial terminal to 9600 baud
+// - To open a serial channel (numbered 0 - 7), send the number of the channel
+// - To open a I2C address (between 8 - 127), send the number of the address
+// - To issue a command, enter it directly to the console.
 //
 //---------------------------------------------------------------------------------------------
 //
@@ -239,7 +240,7 @@ byte I2C_call() {  					//function to parse and call I2C commands.
   Wire.endTransmission();          	                //end the I2C data transmission.
 
   i2c_response_code = 254;
-  while (i2c_response_code == 254) {      // in case the stamp takes longer to process than we expected
+  while (i2c_response_code == 254) {      // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
     if (String(cmd).startsWith(F("cal")) || String(cmd).startsWith(F("Cal")) ) {
       delay(1400);                        // cal-commands take 1300ms or more
