@@ -1,26 +1,18 @@
 // WhiteBox Labs -- Tentacle Shield -- I2C example
 //
+// How to retrieve continuous sensr readings from op to 8
 // This code is intended to work on all Arduinos. If using the Arduino Yun, connect
 // to it's serial port. If you want to work with the Yun wirelessly, check out the respective
 // Yun version of this example.
-// It will allow you to control up to 8 Atlas Scientific devices through the I2C bus
+// It will allow you to get continuous sensor readings from 8 Atlas Scientific devices through the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
 // - Set all your EZO circuits to I2C before using this sketch.
 //    - You can use the "tentacle-steup.ino" sketch to do so)
-//    - Make sure each circuit has a unique I2C ID set 
+//    - Make sure each circuit has a unique I2C ID set
+// - Adjust the variables below to resemble your setup: TOTAL_CIRCUITS, channel_ids, channel_names
 // - Set host serial terminal to 9600 baud
-//
-// - To send a command, send the number of the i2c address, a colon and the command ending with a carriage return.
-//
-// - To issue a command, enter it directly to the console.
-//
-// 102:r<CR>
-// 99:i<CR>
-// 100:c<CR>
-// 99:r<CR>
-// 110:cal,mid,7.00<CR>
 //
 //---------------------------------------------------------------------------------------------
 //
@@ -33,7 +25,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,110 +33,81 @@
 
 #include <Wire.h>                   // enable I2C.
 
+#define TOTAL_CIRCUITS 4            // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle shield(s): 1-8
+
 unsigned long serial_host  = 9600;  // set baud rate for host serial monitor(pc/mac/other)
 
 char sensordata[30];                // A 30 byte character array to hold incoming data from the sensors
-byte computer_bytes_received = 0;   // We need to know how many characters bytes have been received
 byte sensor_bytes_received = 0;     // We need to know how many characters bytes have been received
 int channel;                        // INT pointer for channel switching - 0-7 serial, 8-127 I2C addresses
 char *cmd;                          // Char pointer used in string parsing
 
-char computerdata[48];              // we make a 20 byte character array to hold incoming data from a pc/mac/other.
+int channel_ids[] = {97, 98, 99, 101};        // <-- CHANGE THIS. A list of I2C ids that you set your circuits to.
+// This array should have 1-8 elements (1-8 circuits connected)
+
+char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (must be the same order as in channel_ids[]) 
+// it's used to give a name to each sensor ID. This array should have 1-8 elements (1-8 circuits connected).
+// {"PH Tank 1", "PH Tank 2", "EC Tank 1", "EC Tank2"}, or {"PH"}
+
 byte code = 0;                      // used to hold the I2C response code.
 byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
-int time;                   	    // used to change the dynamic polling delay needed for I2C read operations.
 
 
 void setup() {                      // startup function
   Serial.begin(serial_host);	    // Set the hardware serial port.
   Wire.begin();			    // enable I2C port.
-  intro();			    // display startup message
 }
 
 
-void serialEvent() {               						// This interrupt will trigger when the data coming from the serial monitor(pc/mac/other) is received
-  computer_bytes_received = Serial.readBytesUntil(13, computerdata, 20); 	// We read the data sent from the serial monitor(pc/mac/other) until we see a <CR>. We also count how many characters have been received
-  computerdata[computer_bytes_received] = 0; 				        // We add a 0 to the spot in the array just after the last character we received.. This will stop us from transmitting incorrect data that may have been left in the buffer
-}
 
+void loop() {
 
-void loop() {                                 	// main loop
+  for (int channel = 0; channel < TOTAL_CIRCUITS; channel++) {       // loop through all the sensors
+    Wire.beginTransmission(channel_ids[channel]);     // call the circuit by its ID number.
+    Wire.write('r');        		              // request a reading by sending 'r'
+    Wire.endTransmission();          	              // end the I2C data transmission.
+    delay(1000);
 
-  if (computer_bytes_received != 0) {           // If computer_bytes_received does not equal zero
-    
-    channel = atoi(strtok(computerdata, ":"));  // Let's parse the string at each colon
-    cmd = strtok(NULL, ":");                    // Let's parse the string at each colon
+    sensor_bytes_received = 0;                        // reset data counter
+    memset(sensordata, 0, sizeof(sensordata));        // clear sensordata array;
 
-    I2C_call();		                        // send to I2C
-
-    computer_bytes_received = 0;                // Reset the var computer_bytes_received to equal 0
-  }
-
-}
-
-void intro() {                                  // print intro
-  Serial.flush();
-  Serial.println(" ");
-  Serial.println("READY_");
-}
-
-
-void I2C_call() {  			        // function to parse and call I2C commands
-  sensor_bytes_received = 0;                    // reset data counter
-  memset(sensordata, 0, sizeof(sensordata));    // clear sensordata array;
-
-  if (cmd[0] == 'c' || cmd[0] == 'r')time = 1400;
-  else time = 300;                              //if a command has been sent to calibrate or take a reading we
-  //wait 1400ms so that the circuit has time to take the reading.
-  //if any other command has been sent we wait only 300ms.
-  
-  Wire.beginTransmission(channel); 	// call the circuit by its ID number.
-  Wire.write(cmd);        		// transmit the command that was sent through the serial port.
-  Wire.endTransmission();          	// end the I2C data transmission.
-
-  delay(time);
-
-  code = 254;				// init code value
-
-  while (code == 254) {                 // in case the cammand takes longer to process, we keep looping here until we get a success or an error
-
-    Wire.requestFrom(channel, 48, 1);   // call the circuit and request 48 bytes (this is more then we need).
+    Wire.requestFrom(channel_ids[channel], 48, 1);    // call the circuit and request 48 bytes (this is more then we need).
     code = Wire.read();
 
-    while (Wire.available()) {          // are there bytes to receive.
+    while (Wire.available()) {          // are there bytes to receive?
       in_char = Wire.read();            // receive a byte.
 
-      if (in_char == 0) {               // if we see that we have been sent a null command.
+      if (in_char == 0) {               // null character indicates end of command
         Wire.endTransmission();         // end the I2C data transmission.
-        break;                          // exit the while loop.
+        break;                          // exit the while loop, we're done here
       }
       else {
-        sensordata[sensor_bytes_received] = in_char;  // load this byte into our array.
+        sensordata[sensor_bytes_received] = in_char;      // append this byte to the sensor data array.
         sensor_bytes_received++;
       }
     }
+    
+    Serial.print(channel_names[channel]);   // print channel name
+    Serial.print(':');
 
+    switch (code) {                  	    // switch case based on what the response code is.
+      case 1:                       	    // decimal 1  means the command was successful.
+          Serial.println(sensordata);       // print the actual reading
+        break;                        	    // exits the switch case.
 
-    switch (code) {                  	// switch case based on what the response code is.
-      case 1:                       	// decimal 1.
-        Serial.println("Success");  	// means the command was successful.
-        break;                        	// exits the switch case.
+      case 2:                        	    // decimal 2 means the command has failed.
+        Serial.println("command failed");   // print the error
+        break;                         	    // exits the switch case.
 
-      case 2:                        	// decimal 2.
-        Serial.println("< command failed");    	// means the command has failed.
-        break;                         	// exits the switch case.
+      case 254:                      	    // decimal 254  means the command has not yet been finished calculating.
+       Serial.println("circuit not ready"); // print the error
+        break;                         	    // exits the switch case.
 
-      case 254:                      	// decimal 254.
-        Serial.println("< command pending");   	// means the command has not yet been finished calculating.
-        delay(200);                     // we wait for 200ms and give the circuit some time to complete the command
-        break;                         	// exits the switch case.
-
-      case 255:                      	// decimal 255.
-        Serial.println("No Data");   	// means there is no further data to send.
-        break;                         	// exits the switch case.
+      case 255:                      	    // decimal 255 means there is no further data to send.
+        Serial.println("no data");          // print the error
+        break;                         	    // exits the switch case.
     }
 
-  }
+  } // for loop 
 
-  Serial.println(sensordata);	        // print the data.
 }
