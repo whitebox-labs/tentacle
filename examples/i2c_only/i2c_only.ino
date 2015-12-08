@@ -1,10 +1,11 @@
 // WhiteBox Labs -- Tentacle Shield -- I2C example
+// www.whiteboxes.ch
 //
 // How to retrieve continuous sensr readings from op to 8 Atlas Scientific devices on the I2C bus
 // and send the readings to a host computer via serial.
 //
-// This code is intended to work on all Arduinos. If using the Arduino Yun, connect
-// to it's serial port. If you want to work with the Yun wirelessly, check out the respective
+// This code is intended to work on all 5V tolerant Arduinos. If using the Arduino Yun, connect
+// to it's usb serial port. If you want to work with the Yun wirelessly, check out the respective
 // Yun version of this example.
 //
 // USAGE:
