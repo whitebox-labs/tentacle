@@ -12,6 +12,7 @@
 // To demonstrate the behaviour, we will blink a simple led in parallel to taking the readings.
 // Notice how the led blinks at the desired frequency, not disturbed by the other tasks the
 // Arduino is doing.
+// 
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
@@ -52,8 +53,8 @@ byte code = 0;                                // used to hold the I2C response c
 byte in_char = 0;                             // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 
 int channel_ids[] = {97, 98, 99, 100};        // <-- CHANGE THIS. A list of I2C ids that you set your circuits to.
-String channel_names[] {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (must be the same order as in channel_ids[]) - only used to designate the readings in serial communications
-String readings[TOTAL_CIRCUITS];              // an array of strings to hold the readings of each channel
+char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (must be the same order as in channel_ids[]) - only used to designate the readings in serial communications
+String readings[TOTAL_CIRCUITS];               // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
 const unsigned int reading_delay = 1000;      // time to wait for the circuit to process a read command. datasheets say 1 second.
@@ -101,7 +102,8 @@ void blink_led() {
 void do_serial() {
   if (millis() >= next_serial_time) {                // is it time for the next serial communication?
     for (int i = 0; i < TOTAL_CIRCUITS; i++) {       // loop through all the sensors
-      Serial.print(channel_names[i] + ":");          // print channel name
+      Serial.print(channel_names[i]);                // print channel name
+      Serial.print(':');
       Serial.print(readings[i]);                     // print the actual reading
       Serial.println("");                            // jump to a new line
     }
