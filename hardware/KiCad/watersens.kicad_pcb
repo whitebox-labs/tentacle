@@ -22,7 +22,7 @@
 
   (layers
     (15 F.Cu signal)
-    (0 B.Cu signal hide)
+    (0 B.Cu signal)
     (16 B.Adhes user)
     (17 F.Adhes user)
     (18 B.Paste user)
@@ -65,7 +65,7 @@
     (pad_size 2.6 1.3)
     (pad_drill 0)
     (pad_to_mask_clearance 0)
-    (aux_axis_origin 80.645 116.84)
+    (aux_axis_origin 81.28 116.84)
     (visible_elements 7FFFFFFF)
     (pcbplotparams
       (layerselection 284721153)
