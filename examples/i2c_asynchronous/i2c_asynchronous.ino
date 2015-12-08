@@ -56,9 +56,8 @@ String channel_names[] {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list o
 String readings[TOTAL_CIRCUITS];              // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
-const unsigned int reading_delay = 1400;      // most circuits need 1400ms to process a reading request before being ready to send the data.
+const unsigned int reading_delay = 1000;      // time to wait for the circuit to process a read command. datasheets say 1 second.
 unsigned long next_reading_time;              // holds the time when the next reading should be ready from the circuit
-unsigned long next_request_time;              // holds the time when the next reading should be requested
 boolean request_pending = false;              // wether or not we're waiting for a reading
 
 const unsigned int blink_frequency = 250;     // the frequency of the led blinking, in milliseconds
@@ -118,12 +117,9 @@ void do_sensor_readings() {
       receive_reading();                          // do the actual I2C communication
     }
   } else {                                        // no request is pending,
-    if (millis() >= next_request_time) {          // so, maybe it's time to request the next reading?
-      channel = (channel + 1) % TOTAL_CIRCUITS;   // switch to the next channel (increase current channel by 1, and flip over if we're at the last channel)
-      request_reading();                          // do the actual I2C communication
-    }
+    channel = (channel + 1) % TOTAL_CIRCUITS;     // switch to the next channel (increase current channel by 1, and roll over if we're at the last channel using the % modulo operator)
+    request_reading();                            // do the actual I2C communication
   }
-
 }
 
 
