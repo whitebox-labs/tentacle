@@ -1,10 +1,11 @@
 // WhiteBox Labs -- Tentacle Shield -- I2C example
 //
-// How to retrieve continuous sensr readings from op to 8
+// How to retrieve continuous sensr readings from op to 8 Atlas Scientific devices on the I2C bus
+// and send the readings to a host computer via serial.
+//
 // This code is intended to work on all Arduinos. If using the Arduino Yun, connect
 // to it's serial port. If you want to work with the Yun wirelessly, check out the respective
 // Yun version of this example.
-// It will allow you to get continuous sensor readings from 8 Atlas Scientific devices through the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
@@ -31,30 +32,29 @@
 //
 //---------------------------------------------------------------------------------------------
 
-#include <Wire.h>                   // enable I2C.
+#include <Wire.h>                     // enable I2C.
 
-#define TOTAL_CIRCUITS 4            // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle shield(s): 1-8
+char sensordata[30];                  // A 30 byte character array to hold incoming data from the sensors
+byte sensor_bytes_received = 0;       // We need to know how many characters bytes have been received
 
-unsigned long serial_host  = 9600;  // set baud rate for host serial monitor(pc/mac/other)
+byte code = 0;                        // used to hold the I2C response code.
+byte in_char = 0;                     // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 
-char sensordata[30];                // A 30 byte character array to hold incoming data from the sensors
-byte sensor_bytes_received = 0;     // We need to know how many characters bytes have been received
-int channel;                        // INT pointer for channel switching - 0-7 serial, 8-127 I2C addresses
-char *cmd;                          // Char pointer used in string parsing
+#define TOTAL_CIRCUITS 4              // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle shield(s): 1-8
 
-int channel_ids[] = {97, 98, 99, 101};        // <-- CHANGE THIS. A list of I2C ids that you set your circuits to.
+int channel_ids[] = {97, 98, 99, 100};// <-- CHANGE THIS.
+// A list of I2C ids that you set your circuits to.
 // This array should have 1-8 elements (1-8 circuits connected)
 
-char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (must be the same order as in channel_ids[]) 
+char *channel_names[] = {"DO", "ORP", "PH", "EC"}; // <-- CHANGE THIS.
+// A list of channel names (must be the same order as in channel_ids[]) 
 // it's used to give a name to each sensor ID. This array should have 1-8 elements (1-8 circuits connected).
 // {"PH Tank 1", "PH Tank 2", "EC Tank 1", "EC Tank2"}, or {"PH"}
 
-byte code = 0;                      // used to hold the I2C response code.
-byte in_char = 0;                   // used as a 1 byte buffer to store in bound bytes from the I2C Circuit.
 
 
 void setup() {                      // startup function
-  Serial.begin(serial_host);	    // Set the hardware serial port.
+  Serial.begin(9600);	            // Set the hardware serial port.
   Wire.begin();			    // enable I2C port.
 }
 
@@ -63,10 +63,12 @@ void setup() {                      // startup function
 void loop() {
 
   for (int channel = 0; channel < TOTAL_CIRCUITS; channel++) {       // loop through all the sensors
+  
     Wire.beginTransmission(channel_ids[channel]);     // call the circuit by its ID number.
     Wire.write('r');        		              // request a reading by sending 'r'
     Wire.endTransmission();          	              // end the I2C data transmission.
-    delay(1000);
+    
+    delay(1000);  // AS circuits need a 1 second before the reading is ready
 
     sensor_bytes_received = 0;                        // reset data counter
     memset(sensordata, 0, sizeof(sensordata));        // clear sensordata array;
@@ -92,7 +94,7 @@ void loop() {
 
     switch (code) {                  	    // switch case based on what the response code is.
       case 1:                       	    // decimal 1  means the command was successful.
-          Serial.println(sensordata);       // print the actual reading
+        Serial.println(sensordata);       // print the actual reading
         break;                        	    // exits the switch case.
 
       case 2:                        	    // decimal 2 means the command has failed.
@@ -100,7 +102,7 @@ void loop() {
         break;                         	    // exits the switch case.
 
       case 254:                      	    // decimal 254  means the command has not yet been finished calculating.
-       Serial.println("circuit not ready"); // print the error
+        Serial.println("circuit not ready"); // print the error
         break;                         	    // exits the switch case.
 
       case 255:                      	    // decimal 255 means there is no further data to send.
