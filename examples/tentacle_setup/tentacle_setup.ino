@@ -35,7 +35,7 @@
 #include <SoftwareSerial.h>              //Include the software serial library  
 #include <Wire.h>                	 //enable I2C.
 
-SoftwareSerial sSerial(11, 10);        // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
+SoftwareSerial sSerial(11, 10);          // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
                                          // assigned to pins 10 and 11 for maximum compatibility
 
 const int s0 = 7;                        //Arduino pin 7 to control pin S0
@@ -77,13 +77,13 @@ void setup() {
   pinMode(enable_1, OUTPUT);             //Set the digital pin as output.
   pinMode(enable_2, OUTPUT);             //Set the digital pin as output.
 
-  Serial.begin(9600);                   //Set the hardware serial port to 38400
+  Serial.begin(9600);                    // Set the hardware serial port to 38400
   while (!Serial) ;                      // Leonardo-type arduinos need this to be able to write to the serial port in setup()
-  sSerial.begin(38400);                //Set the soft serial port to 38400
-  Wire.begin();                 	 //enable I2C port.
+  sSerial.begin(38400);                  // Set the soft serial port to 38400
+  Wire.begin();                 	 // enable I2C port.
 
   stamp_type.reserve(16);                // reserve string buffer to save some SRAM
-  intro();				 //display startup message
+  intro();				 // display startup message
 }
 
 
@@ -100,12 +100,12 @@ void loop() {
     }
     else if (String(cmd) == F("scan")) {         // if scan requested
       scan(true);
-      computer_bytes_received = 0;               //Reset the var computer_bytes_received to equal 0
+      computer_bytes_received = 0;               // Reset the var computer_bytes_received to equal 0
       return;
     }
     else if (String(cmd) == F("scani2c")) {
       scan(false);
-      computer_bytes_received = 0;               //Reset the var computer_bytes_received to equal 0
+      computer_bytes_received = 0;               // Reset the var computer_bytes_received to equal 0
       return;
     }
     else {
@@ -269,7 +269,7 @@ byte I2C_call() {  					//function to parse and call I2C commands.
 
     switch (i2c_response_code) {         //switch case based on what the response code is.
       case 1:                       	 //decimal 1.
-        Serial.println( F("< ack"));     //means the command was successful.
+        Serial.println( F("< success"));     //means the command was successful.
         break;                        	 //exits the switch case.
 
       case 2:                        	 //decimal 2.
