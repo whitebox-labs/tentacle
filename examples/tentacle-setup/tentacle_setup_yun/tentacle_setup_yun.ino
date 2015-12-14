@@ -4,6 +4,8 @@
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
 // For serial stamps (legacy or EZO-stamps in serial mode), the baudrate is detected automatically.
 //
+// THIS IS A TOOL TO SETUP YOUR CIRCUITS INTERACTIVELY. THIS CODE IS NOT INTENDED AS A BOILERPLATE FOR YOUR PROJECT.
+//
 // This sample code was written on an Arduino YUN, and depends on it's Bridge library to
 // communicate wirelessly.
 // For Arduino Mega, Uno etc, see the respective examples.
