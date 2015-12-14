@@ -3,7 +3,8 @@
 //
 // This code is based on https://www.atlas-scientific.com/_files/code/4-port-board.pdf
 //
-// How to use 4 (or 8 if using 2 Tentacle shields) Atlas Scientivic devices in serial mode.
+// How to use 4 (or 8 if using 2 Tentacle shields) Atlas Scientivic devices in serial mode
+// and interact with them via the serial monitor.
 // This sketch assumes all of your devices are either older serial devices or EZO circuits
 // in serial mode. You can use the tentacle_setup.ino to autodetect and setup your devices.
 //
