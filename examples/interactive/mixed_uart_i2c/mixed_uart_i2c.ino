@@ -1,14 +1,17 @@
-// WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART example
+// WhiteBox Labs -- Tentacle Shield -- Mixed I2C and UART interactive example
+// https://www.whiteboxes.ch/tentacle
+//
+// How to use 4 (or 8 if using 2 Tentacle shields) Atlas Scientivic devices in I2C mode and
+// UART mode mixed and interact with them via the serial monitor.
 //
 // This code is intended to work on all Arduinos. If using the Arduino Yun, connect
 // to it's serial port. If you want to work with the Yun wirelessly, check out the respective
 // Yun version of this example.
-// It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or the I2C bus
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
 // - Set host serial terminal to 9600 baud
-// - Set Atlas Scientific devices to 9600 baud (or change baudrate_ch* values below)
+// - Set the Atlas Scientific devices to 38400 baud or use them I2C mode
 //
 // - To send a command, send the number of the channel, a colon and the command ending with a carriage return.
 //   - serial channels are  numbered 0 - 7
@@ -46,17 +49,6 @@
 SoftwareSerial sSerial(11, 10);  // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
 //assigned to pins 10 and 11 for maximum compatibility
 
-unsigned long serial_host  = 9600;	// set baud rate for host serial monitor(pc/mac/other)
-
-unsigned long baudrate_ch0 = 9600;	// set baudrates for serial channels 0-7.
-unsigned long baudrate_ch1 = 9600;	// 9600 (recommended) is the default rate for Atlas Scientific EZO stamps shipped after November 6th 2014
-unsigned long baudrate_ch2 = 9600;	// 38400 is the default rate EZO and legacy devices shipped before this date.
-unsigned long baudrate_ch3 = 9600;	// other values allowed: 300,1200,2400,9600,19200,38400,57600,115200
-unsigned long baudrate_ch4 = 9600;	// See the datasheet for your Atlas Scientific device for instructions on changing the default baud rate.
-unsigned long baudrate_ch5 = 9600;
-unsigned long baudrate_ch6 = 9600;
-unsigned long baudrate_ch7 = 9600;
-
 int s0 = 7;                         // Arduino pin 7 to control pin S0
 int s1 = 6;                         // Arduino pin 6 to control pin S1
 int enable_1 = 5;	            // Arduino pin 5 to control pin E on board 1
@@ -82,8 +74,8 @@ void setup() {                      // startup function
   pinMode(s0, OUTPUT);	            // Set the digital pin as output.
   pinMode(enable_1, OUTPUT);	    // Set the digital pin as output.
   pinMode(enable_2, OUTPUT);	    // Set the digital pin as output.
-  Serial.begin(serial_host);	    // Set the hardware serial port.
-  sSerial.begin(baudrate_ch0);	    // Set the soft serial port to rate of default channel (0).
+  Serial.begin(9600);	    // Set the hardware serial port.
+  sSerial.begin(38400);	    // Set the soft serial port to rate of default channel (0).
   Wire.begin();			    // enable I2C port.
   intro();			    // display startup message
 }
@@ -135,7 +127,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, HIGH);           // Setting enable_2 to high deactivates secondary channels: 4,5,6,7
       digitalWrite(s0, LOW);                  // S0 and S1 control what channel opens
       digitalWrite(s1, LOW);                  // S0 and S1 control what channel opens
-      sSerial.begin(baudrate_ch0);	      // reset soft serial to baudrate defined for this channel
       break;                                  // Exit switch case
 
     case 1:
@@ -143,7 +134,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, HIGH);
       digitalWrite(s0, HIGH);
       digitalWrite(s1, LOW);
-      sSerial.begin(baudrate_ch1);
       break;
 
     case 2:
@@ -151,7 +141,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, HIGH);
       digitalWrite(s0, LOW);
       digitalWrite(s1, HIGH);
-      sSerial.begin(baudrate_ch2);
       break;
 
     case 3:
@@ -159,7 +148,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, HIGH);
       digitalWrite(s0, HIGH);
       digitalWrite(s1, HIGH);
-      sSerial.begin(baudrate_ch3);
       break;
 
     case 4:
@@ -167,7 +155,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, LOW);
       digitalWrite(s0, LOW);
       digitalWrite(s1, LOW);
-      sSerial.begin(baudrate_ch4);
       break;
 
     case 5:
@@ -175,7 +162,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, LOW);
       digitalWrite(s0, HIGH);
       digitalWrite(s1, LOW);
-      sSerial.begin(baudrate_ch5);
       break;
 
     case 6:
@@ -183,7 +169,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, LOW);
       digitalWrite(s0, LOW);
       digitalWrite(s1, HIGH);
-      sSerial.begin(baudrate_ch6);
       break;
 
     case 7:
@@ -191,7 +176,6 @@ void open_channel() {                         // function controls which UART/I2
       digitalWrite(enable_2, LOW);
       digitalWrite(s0, HIGH);
       digitalWrite(s1, HIGH);
-      sSerial.begin(baudrate_ch7);
       break;
 
     default:					// I2C mode
