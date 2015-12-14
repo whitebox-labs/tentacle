@@ -43,9 +43,9 @@
 SoftwareSerial sSerial(11, 10);     // RX, TX  - Name the software serial library sftSerial (this cannot be omitted)
                                     // assigned to pins 10 and 11 for maximum compatibility
                                     
-#define NUM_CIRCUITS 4                       // <-- CHANGE THIS | set how many UART circuits are attached to the Tentacle
+#define NUM_CIRCUITS 4              // <-- CHANGE THIS | set how many UART circuits are attached to the Tentacle
 
-#define baud_host 9600        // set baud rate for host serial monitor(pc/mac/other)
+#define baud_host 9600              // set baud rate for host serial monitor(pc/mac/other)
 const unsigned int send_readings_every = 5000; // set at what intervals the readings are sent to the computer (NOTE: this is not the frequency of taking the readings!)
 unsigned long next_serial_time;
 
@@ -62,7 +62,7 @@ byte in_char = 0;                             // used as a 1 byte buffer to stor
 char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (this list should have TOTAL_CIRCUITS entries)
                                                      // only used to designate the readings in serial communications
                                                      // position in array defines the serial channel. e.g. channel_names[0] is channel 0 on the shield; "PH" in this case.
-String readings[NUM_CIRCUITS];               // an array of strings to hold the readings of each channel
+String readings[NUM_CIRCUITS];                // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
 const unsigned int reading_delay = 100;       // how often to poll the soft serial bus for new data.
@@ -80,14 +80,13 @@ boolean led_state = LOW;                      // keeps track of the current led 
 void setup() {
   pinMode(13, OUTPUT);                        // set the led output pin
   
-  pinMode(s0, OUTPUT);             // set the digital output pins for the serial multiplexer
+  pinMode(s0, OUTPUT);                        // set the digital output pins for the serial multiplexer
   pinMode(s1, OUTPUT);
   pinMode(enable_1, OUTPUT);
   pinMode(enable_2, OUTPUT);
 
-  Serial.begin(baud_host);              // Set the hardware serial port to 9600
-  sSerial.begin(baud_circuits);             // Set the soft serial port to 9600 (change if all your devices use another baudrate)
-	              // enable I2C port.
+  Serial.begin(baud_host);                   // Set the hardware serial port to 9600
+  sSerial.begin(baud_circuits);              // Set the soft serial port to 9600 (change if all your devices use another baudrate)
   next_serial_time = millis() + send_readings_every;  // calculate the next point in time we should do serial communications
   Serial.println("-----");
 }
@@ -120,10 +119,10 @@ void blink_led() {
 void do_serial() {
   if (millis() >= next_serial_time) {                // is it time for the next serial communication?
     Serial.println("-------------");
-    for (int i = 0; i < NUM_CIRCUITS; i++) {       // loop through all the sensors
+    for (int i = 0; i < NUM_CIRCUITS; i++) {         // loop through all the sensors
       Serial.print(channel_names[i]);                // print channel name
       Serial.print(":\t");
-      Serial.println(readings[i]);                     // print the actual reading
+      Serial.println(readings[i]);                   // print the actual reading
     }
     Serial.println("-");
     next_serial_time = millis() + send_readings_every;
@@ -137,7 +136,7 @@ void do_sensor_readings() {
   if (request_pending) {                          // is a request pending?
 
     if (millis()>next_reading_time) {
-      if (sSerial.available()) {                 // If data has been transmitted from an Atlas Scientific device
+      if (sSerial.available()) {                  // If data has been transmitted from an Atlas Scientific device
     
         sensor_bytes_received = sSerial.readBytesUntil(13, sensordata, 30);  // read until we see a <cr> char
         sensordata[sensor_bytes_received] = 0; 
@@ -157,17 +156,17 @@ void do_sensor_readings() {
       }
     }
 
-  } else {                                        // no request is pending,
+  } else {                                     // no request is pending,
     switch_channel();
-    request_reading();                            // do the actual I2C communication
+    request_reading();                         // do the actual I2C communication
   }
 }
 
 
 void switch_channel() {
   channel = (channel + 1) % NUM_CIRCUITS;     // switch to the next channel (increase current channel by 1, and roll over if we're at the last channel using the % modulo operator) 
-  open_channel();                               // configure the multiplexer for the new channel - we "hot swap" the circuit connected to the softSerial pins
-  while (sSerial.available()) {                 // clear out everything that is in the buffer already
+  open_channel();                             // configure the multiplexer for the new channel - we "hot swap" the circuit connected to the softSerial pins
+  while (sSerial.available()) {               // clear out everything that is in the buffer already
    sSerial.read(); 
   }
 }
@@ -177,7 +176,7 @@ void switch_channel() {
 // Request a reading from the current channel
 void request_reading() {
     request_pending = true;
-    sSerial.print("r\r");                        // <CR> carriage return to terminate message
+    sSerial.print("r\r");                     // <CR> carriage return to terminate message
 }
 
 
@@ -186,7 +185,7 @@ void open_channel() {
 
   switch (channel) {
 
-    case 0:                                // if channel==0 then we open channel 0
+    case 0:                                  // if channel==0 then we open channel 0
       digitalWrite(enable_1, LOW);           // setting enable_1 to low activates primary channels: 0,1,2,3
       digitalWrite(enable_2, HIGH);          // setting enable_2 to high deactivates secondary channels: 4,5,6,7
       digitalWrite(s0, LOW);                 // S0 and S1 control what channel opens

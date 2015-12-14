@@ -1,5 +1,5 @@
 // WhiteBox Labs -- Tentacle Shield -- I2C asynchronous example
-//
+// https://www.whiteboxes.ch/tentacle
 //
 //
 // This code is intended to work on all Arduinos. If using the Arduino Yun, connect
@@ -43,7 +43,7 @@
 
 #define TOTAL_CIRCUITS 4                       // <-- CHANGE THIS | set how many I2C circuits are attached to the Tentacle
 
-const unsigned int serial_host  = 9600;        // set baud rate for host serial monitor(pc/mac/other)
+const unsigned int baud_host  = 9600;        // set baud rate for host serial monitor(pc/mac/other)
 const unsigned int send_readings_every = 5000; // set at what intervals the readings are sent to the computer (NOTE: this is not the frequency of taking the readings!)
 unsigned long next_serial_time;
 
@@ -69,7 +69,7 @@ boolean led_state = LOW;                      // keeps track of the current led 
 
 void setup() {
   pinMode(13, OUTPUT);                        // set the led output pin
-  Serial.begin(serial_host);	              // Set the hardware serial port.
+  Serial.begin(baud_host);	              // Set the hardware serial port.
   Wire.begin();			              // enable I2C port.
   next_serial_time = millis() + send_readings_every;  // calculate the next point in time we should do serial communications
 }
@@ -103,9 +103,8 @@ void do_serial() {
   if (millis() >= next_serial_time) {                // is it time for the next serial communication?
     for (int i = 0; i < TOTAL_CIRCUITS; i++) {       // loop through all the sensors
       Serial.print(channel_names[i]);                // print channel name
-      Serial.print(':');
-      Serial.print(readings[i]);                     // print the actual reading
-      Serial.println("");                            // jump to a new line
+      Serial.print(":\t");
+      Serial.println(readings[i]);                     // print the actual reading
     }
     next_serial_time = millis() + send_readings_every;
   }

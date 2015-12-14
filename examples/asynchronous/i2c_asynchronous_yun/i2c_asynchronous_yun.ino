@@ -1,10 +1,9 @@
-// WhiteBox Labs -- Tentacle Shield -- I2C asynchronous example
-//
+// WhiteBox Labs -- Tentacle Shield -- I2C asynchronous example -- YUN only
+// https://www.whiteboxes.ch/tentacle
 //
 //
 // This sample code was written on an Arduino YUN, and depends on it's Bridge library to
-// communicate wirelessly.
-// For Arduino Mega, Uno etc, see the respective examples.
+// communicate wirelessly. For Arduino Mega, Uno etc, see the respective examples.
 // It will allow you to control up to 8 Atlas Scientific devices through the I2C bus.
 //
 // This example shows how to take readings from the sensors in an asynchronous way, completely
