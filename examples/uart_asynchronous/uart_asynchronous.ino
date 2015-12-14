@@ -19,7 +19,7 @@
 // - Set all your EZO circuits to UART, 38400 baud before using this sketch.
 //    - You can use the "tentacle-steup.ino" sketch to do so)
 //    - Non-EZO (legacy) circuits are supported
-// - Change the variables TOTAL_CIRCUITS, channel_ids and channel_names to reflect your setup
+// - Change the variables NUM_CIRCUITS, channel_ids and channel_names to reflect your setup
 // - Set host serial terminal to 9600 baud
 //
 //---------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@
 SoftwareSerial sSerial(11, 10);     // RX, TX  - Name the software serial library sftSerial (this cannot be omitted)
                                     // assigned to pins 10 and 11 for maximum compatibility
                                     
-#define TOTAL_CIRCUITS 4                       // <-- CHANGE THIS | set how many UART circuits are attached to the Tentacle
+#define NUM_CIRCUITS 4                       // <-- CHANGE THIS | set how many UART circuits are attached to the Tentacle
 
 #define baud_host 9600        // set baud rate for host serial monitor(pc/mac/other)
 const unsigned int send_readings_every = 5000; // set at what intervals the readings are sent to the computer (NOTE: this is not the frequency of taking the readings!)
@@ -62,7 +62,7 @@ byte in_char = 0;                             // used as a 1 byte buffer to stor
 char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list of channel names (this list should have TOTAL_CIRCUITS entries)
                                                      // only used to designate the readings in serial communications
                                                      // position in array defines the serial channel. e.g. channel_names[0] is channel 0 on the shield; "PH" in this case.
-String readings[TOTAL_CIRCUITS];               // an array of strings to hold the readings of each channel
+String readings[NUM_CIRCUITS];               // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
 const unsigned int reading_delay = 100;       // how often to poll the soft serial bus for new data.
@@ -120,7 +120,7 @@ void blink_led() {
 void do_serial() {
   if (millis() >= next_serial_time) {                // is it time for the next serial communication?
     Serial.println("-------------");
-    for (int i = 0; i < TOTAL_CIRCUITS; i++) {       // loop through all the sensors
+    for (int i = 0; i < NUM_CIRCUITS; i++) {       // loop through all the sensors
       Serial.print(channel_names[i]);                // print channel name
       Serial.print(":\t");
       Serial.println(readings[i]);                     // print the actual reading
@@ -165,7 +165,7 @@ void do_sensor_readings() {
 
 
 void switch_channel() {
-  channel = (channel + 1) % TOTAL_CIRCUITS;     // switch to the next channel (increase current channel by 1, and roll over if we're at the last channel using the % modulo operator) 
+  channel = (channel + 1) % NUM_CIRCUITS;     // switch to the next channel (increase current channel by 1, and roll over if we're at the last channel using the % modulo operator) 
   open_channel();                               // configure the multiplexer for the new channel - we "hot swap" the circuit connected to the softSerial pins
   while (sSerial.available()) {                 // clear out everything that is in the buffer already
    sSerial.read(); 
