@@ -1,4 +1,4 @@
-// WhiteBox Labs -- Tentacle Shield --  UART example
+// WhiteBox Labs -- Tentacle Shield --  UART interactive example
 // https://www.whiteboxes.ch/tentacle
 //
 // This code is based on https://www.atlas-scientific.com/_files/code/4-port-board.pdf
@@ -13,10 +13,16 @@
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
+// - Set all your EZO circuits to UART @38400 baud before using this sketch.
+//    - You can use the "tentacle-steup.ino" sketch to do so)
+//
 // - Set host serial terminal to 9600 baud
+//
 //  - Serial channel numbers are 0-3
 //    ( Channels 4-7 are also available, if you're using two stacked Tentacle shields)
-// - To open a channel send the number of the channel, a colon and the command ending with a carriage return.
+//    in UART mode, the channel number is defined by physical location on the shield
+//
+// - To open a channel send the number of the channel, a colon and the command ending with a carriage return.   
 //
 // 0:r<CR>
 // 1:i<CR>
@@ -66,7 +72,7 @@ void setup() {
   pinMode(enable_2, OUTPUT);
 
   Serial.begin(9600);              // Set the hardware serial port to 9600
-  sSerial.begin(9600);             // Set the soft serial port to 9600 (change if all your devices use another baudrate)
+  sSerial.begin(38400);             // Set the soft serial port to 9600 (change if all your devices use another baudrate)
   intro();                         // display startup message
 }
 

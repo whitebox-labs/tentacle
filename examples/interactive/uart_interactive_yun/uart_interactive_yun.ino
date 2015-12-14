@@ -1,5 +1,5 @@
-// WhiteBox Labs -- Tentacle Shield & Arduino Yun --  UART example
-// www.whiteboxes.ch
+// WhiteBox Labs -- Tentacle Shield & Arduino Yun --  UART interactive example
+// https://www.whiteboxes.ch/tentacle
 //
 // This code is based on https://www.atlas-scientific.com/_files/code/4-port-board.pdf
 //
@@ -8,8 +8,7 @@
 // in serial mode. You can use the tentacle_setup.ino to autodetect and setup your devices.
 //
 // This sample code was written on an Arduino YUN, and depends on it's Bridge library to
-// communicate wirelessly.
-// For Arduino Mega, Uno etc, see the respective examples.
+// communicate wirelessly. For Arduino Mega, Uno etc, see the respective examples.
 //
 // USAGE:
 //---------------------------------------------------------------------------------------------
@@ -17,7 +16,8 @@
 //    - The Yun will only show up in the Ports menu, if your computer is on the same Network as the Yun.
 //
 // - Serial channel numbers are 0-3
-//   ( Channels 4-7 are also available, if you're using two stacked Tentacle shields)
+//    ( Channels 4-7 are also available, if you're using two stacked Tentacle shields)
+//    in UART mode, the channel number is defined by physical location on the shield
 //
 // - To open a channel, send the number of the channel, a colon and the command ending with a carriage return.
 //
@@ -75,7 +75,7 @@ void setup() {
   Bridge.begin();
   Console.begin();                 // initialize serial communication over network:
   while (!Console) ;               // wait for Console port to connect.
-  sSerial.begin(9600);             // set the soft serial port to 9600
+  sSerial.begin(38400);             // set the soft serial port to 9600
   intro();                         // display startup message
 }
 
