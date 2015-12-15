@@ -65,7 +65,7 @@ char *channel_names[] = {"DO", "ORP", "PH", "EC"};   // <-- CHANGE THIS. A list 
 String readings[NUM_CIRCUITS];                // an array of strings to hold the readings of each channel
 int channel = 0;                              // INT pointer to hold the current position in the channel_ids/channel_names array
 
-const unsigned int reading_delay = 100;       // how often to poll the soft serial bus for new data.
+const unsigned int reading_delay = 100;       // delay between each reading.
                                               // low values give fast reading updates, <1 sec per circuit.
                                               // high values give your Ardino more time for other stuff
 unsigned long next_reading_time;              // holds the time when the next reading should be ready from the circuit
@@ -88,6 +88,7 @@ void setup() {
   Serial.begin(baud_host);                   // Set the hardware serial port to 9600
   sSerial.begin(baud_circuits);              // Set the soft serial port to 9600 (change if all your devices use another baudrate)
   next_serial_time = millis() + send_readings_every;  // calculate the next point in time we should do serial communications
+  next_reading_time = millis() + reading_delay;
   Serial.println("-----");
 }
 
@@ -135,30 +136,39 @@ void do_sensor_readings() {
   
   if (request_pending) {                          // is a request pending?
 
-    if (millis()>next_reading_time) {
-      if (sSerial.available()) {                  // If data has been transmitted from an Atlas Scientific device
-    
-        sensor_bytes_received = sSerial.readBytesUntil(13, sensordata, 30);  // read until we see a <cr> char
-        sensordata[sensor_bytes_received] = 0; 
-        readings[channel] = sensordata;
+    while (sSerial.available()) {                 // while there is data available from the circuit
+      
+      char c = sSerial.read();                    // read the next available byte from the circuit
+
+      if (c=='\r') {                              // in case it's a <CR> character, we reached the end of a message
   
-        request_pending = false;                            
-        sensor_bytes_received = 0;                            // reset data counter
-        memset(sensordata, 0, sizeof(sensordata));            // clear sensordata array;
-        
+        sensordata[sensor_bytes_received] = 0;    // terminate the string with a \0 character
+        readings[channel] = sensordata;           // update the readings array with this circuits data
+
         // un-comment to see the real update frequency of the readings / debug
         //Serial.print(channel_names[channel]);
         //Serial.print(" update:\t");
         //Serial.println(readings[channel]);
-    
+        
+        sensor_bytes_received = 0;                  // reset data counter
+        memset(sensordata, 0, sizeof(sensordata));  // clear sensordata array;
+        
+        request_pending = false;                    // toggle request_pending
+        next_reading_time = millis()+reading_delay; // schedule the reading of the next sensor
+        break;                                      // get out of this while loop, we have our data and don't care about the rest in the buffer
+        
       } else {
-        next_reading_time = millis()+reading_delay; 
+        sensordata[sensor_bytes_received] = c;
+        sensor_bytes_received++;
       }
-    }
+    
+    } // end while
 
   } else {                                     // no request is pending,
-    switch_channel();
-    request_reading();                         // do the actual I2C communication
+    if (millis()>next_reading_time) {
+      switch_channel();                        // switch to the next channel
+      request_reading();                       // do the actual UART communication
+    } 
   }
 }
 
@@ -166,9 +176,7 @@ void do_sensor_readings() {
 void switch_channel() {
   channel = (channel + 1) % NUM_CIRCUITS;     // switch to the next channel (increase current channel by 1, and roll over if we're at the last channel using the % modulo operator) 
   open_channel();                             // configure the multiplexer for the new channel - we "hot swap" the circuit connected to the softSerial pins
-  while (sSerial.available()) {               // clear out everything that is in the buffer already
-   sSerial.read(); 
-  }
+  sSerial.flush();                            // clear out everything that is in the buffer already
 }
 
 
