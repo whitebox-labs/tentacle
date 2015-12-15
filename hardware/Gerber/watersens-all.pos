@@ -1,4 +1,4 @@
-### Module positions - created on 08/12/2015 22:09:12 ###
+### Module positions - created on 15/12/2015 05:11:42 ###
 ### Printed by Pcbnew version pcbnew (2013-07-07 BZR 4022)-stable
 ## Unit = mm, Angle = deg.
 ## Side : All
@@ -23,6 +23,11 @@ C17      1µF             SM0805              3.8100    20.3200      90.0    F.C
 C18      2.2µF           SM0805              7.6200    25.4000     180.0    F.Cu
 C19      .1 µF           SM0805a           137.1600    16.5100      90.0    F.Cu
 C20      0.1 µF          SM0805a           137.1600    21.5900     270.0    F.Cu
+C21      470µF           c_tant_X           59.6900    12.7000      90.0    F.Cu
+DCDC1    R1SE_0505        R1SE_0505          48.2600    10.1600      90.0    F.Cu
+DCDC2    R1SE_0505        R1SE_0505          34.2900    10.1600      90.0    F.Cu
+DCDC3    R1SE_0505        R1SE_0505          20.3200    10.1600      90.0    F.Cu
+DCDC4    R1SE_0505        R1SE_0505           6.3500    10.1600      90.0    F.Cu
 MUX1     74HCT4052D       SO16N              30.4800    39.3700       0.0    F.Cu
 R1       4.7K             SM0805a            80.0100    43.1800     180.0    F.Cu
 R2       4.7K             SM0805a            81.2800    10.1600     180.0    F.Cu
@@ -51,4 +56,5 @@ SIG_ISO1 SI8600           so-8a              80.0100    19.0500     180.0    F.C
 SIG_ISO2 SI8600           so-8a              97.7900    19.0500     180.0    F.Cu
 SIG_ISO3 SI8600           so-8a             115.5700    19.0500     180.0    F.Cu
 SIG_ISO4 SI8600           so-8a             133.3500    19.0500     180.0    F.Cu
+SW1      SW_PUSH          B3S-1000P           1.2700    45.7200     180.0    F.Cu
 ## End

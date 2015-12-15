@@ -3916,6 +3916,7 @@
   (module R1SE_0505 (layer F.Cu) (tedit 545CFC40) (tstamp 545D0019)
     (at 129.54 106.68 90)
     (path /5337519A)
+    (attr smd)
     (fp_text reference DCDC1 (at -5.207 -3.175 90) (layer F.SilkS) hide
       (effects (font (size 0.3 0.3) (thickness 0.075)))
     )
@@ -3955,6 +3956,7 @@
   (module R1SE_0505 (layer F.Cu) (tedit 545CFC40) (tstamp 545D0025)
     (at 115.57 106.68 90)
     (path /53549A8D)
+    (attr smd)
     (fp_text reference DCDC2 (at -5.207 -3.175 90) (layer F.SilkS) hide
       (effects (font (size 0.3 0.3) (thickness 0.075)))
     )
@@ -3994,6 +3996,7 @@
   (module R1SE_0505 (layer F.Cu) (tedit 545CFC40) (tstamp 545D0031)
     (at 101.6 106.68 90)
     (path /53549ADC)
+    (attr smd)
     (fp_text reference DCDC3 (at -5.207 -3.175 90) (layer F.SilkS) hide
       (effects (font (size 0.3 0.3) (thickness 0.075)))
     )
@@ -4033,6 +4036,7 @@
   (module R1SE_0505 (layer F.Cu) (tedit 545CFC40) (tstamp 545D003D)
     (at 87.63 106.68 90)
     (path /53549B2B)
+    (attr smd)
     (fp_text reference DCDC4 (at -5.207 -3.175 90) (layer F.SilkS) hide
       (effects (font (size 0.3 0.3) (thickness 0.075)))
     )
@@ -4152,31 +4156,6 @@
     )
   )
 
-  (module c_tant_X (layer F.Cu) (tedit 545D2822) (tstamp 545D2B3E)
-    (at 140.97 104.14 90)
-    (descr "SMT capacitor, tantalum size X")
-    (path /5448282F)
-    (fp_text reference C21 (at 0 -1.905 90) (layer F.SilkS) hide
-      (effects (font (size 0.2 0.2) (thickness 0.05)))
-    )
-    (fp_text value 470µF (at 0 -1.27 90) (layer F.SilkS) hide
-      (effects (font (size 0.2 0.2) (thickness 0.05)))
-    )
-    (pad 1 smd rect (at 2.99974 0 90) (size 2.55016 2.70002)
-      (layers F.Cu F.Paste F.Mask)
-      (net 52 VCC)
-    )
-    (pad 2 smd rect (at -2.99974 0 90) (size 2.55016 3.79984)
-      (layers F.Cu F.Paste F.Mask)
-      (net 1 GND)
-    )
-    (model smd/capacitors/c_tant_X.wrl
-      (at (xyz 0 0 0))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
-    )
-  )
-
   (module fiducial (layer F.Cu) (tedit 545D3247) (tstamp 545D709E)
     (at 81.28 116.84)
     (fp_text reference fiducial (at -0.1397 -0.7366) (layer F.SilkS) hide
@@ -4196,6 +4175,7 @@
   (module B3S-1000P (layer F.Cu) (tedit 547CF11A) (tstamp 547D0489)
     (at 82.55 71.12 180)
     (path /5337EAF4)
+    (attr smd)
     (fp_text reference SW1 (at -1.27 0 180) (layer F.SilkS) hide
       (effects (font (size 0.3 0.3) (thickness 0.075)))
     )
@@ -13606,6 +13586,32 @@
     (pad 2 thru_hole circle (at -2.54 5.08 180) (size 1.8 1.8) (drill 0.89)
       (layers *.Cu *.Mask F.SilkS)
       (net 14 N-0000019)
+    )
+  )
+
+  (module c_tant_X (layer F.Cu) (tedit 545D2822) (tstamp 566F893F)
+    (at 140.97 104.14 90)
+    (descr "SMT capacitor, tantalum size X")
+    (path /5448282F)
+    (attr smd)
+    (fp_text reference C21 (at 0 -1.905 90) (layer F.SilkS) hide
+      (effects (font (size 0.2 0.2) (thickness 0.05)))
+    )
+    (fp_text value 470µF (at 0 -1.27 90) (layer F.SilkS) hide
+      (effects (font (size 0.2 0.2) (thickness 0.05)))
+    )
+    (pad 1 smd rect (at 2.99974 0 90) (size 2.55016 2.70002)
+      (layers F.Cu F.Paste F.Mask)
+      (net 52 VCC)
+    )
+    (pad 2 smd rect (at -2.99974 0 90) (size 2.55016 3.79984)
+      (layers F.Cu F.Paste F.Mask)
+      (net 1 GND)
+    )
+    (model smd/capacitors/c_tant_X.wrl
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
     )
   )
 
