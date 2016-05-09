@@ -550,6 +550,8 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
   // ORP EZO -> '?I,OR,1.0'   (-> wrong in documentation 'OR' instead of 'ORP')
   // DO EZO  -> '?I,D.O.,1.0' || '?I,DO,1.7' (-> exists in D.O. and DO form)
   // EC EZO  -> '?I,EC,1.0 '
+  // TEMP EZO-> '?I,RTD,1.2'
+
 
   // Legazy PH  -> 'P,V5.0,5/13'
   // Legazy ORP -> 'O,V4.4,2/13'
@@ -560,52 +562,61 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
 
     // PH EZO
     if (sensordata[3] == 'p' && sensordata[4] == 'H') {
-      stamp_type = F("pH EZO");
+      stamp_type = F("EZO pH");
       stamp_version[0] = sensordata[6];
       stamp_version[1] = sensordata[7];
       stamp_version[2] = sensordata[8];
-      stamp_version[3] = 0;
 
       return true;
 
       // ORP EZO
     }
     else if (sensordata[3] == 'O' && sensordata[4] == 'R') {
-      stamp_type = F("ORP EZO");
+      stamp_type = F("EZO ORP");
       stamp_version[0] = sensordata[6];
       stamp_version[1] = sensordata[7];
       stamp_version[2] = sensordata[8];
-      stamp_version[3] = 0;
+
       return true;
 
       // DO EZO
     }
     else if (sensordata[3] == 'D' && sensordata[4] == 'O') {
-      stamp_type = F("D.O. EZO");
+      stamp_type = F("EZO DO");
       stamp_version[0] = sensordata[6];
       stamp_version[1] = sensordata[7];
       stamp_version[2] = sensordata[8];
-      stamp_version[3] = 0;
+
       return true;
 
       // D.O. EZO
     }
     else if (sensordata[3] == 'D' && sensordata[4] == '.' && sensordata[5] == 'O' && sensordata[6] == '.') {
-      stamp_type = F("D.O. EZO");
+      stamp_type = F("EZO DO");
       stamp_version[0] = sensordata[8];
       stamp_version[1] = sensordata[9];
       stamp_version[2] = sensordata[10];
-      stamp_version[3] = 0;
+
       return true;
 
       // EC EZO
     }
     else if (sensordata[3] == 'E' && sensordata[4] == 'C') {
-      stamp_type = F("EC EZO");
+      stamp_type = F("EZO EC");
       stamp_version[0] = sensordata[6];
       stamp_version[1] = sensordata[7];
       stamp_version[2] = sensordata[8];
-      stamp_version[3] = 0;
+
+      return true;
+      
+      // RTD EZO
+    }
+    else if (sensordata[3] == 'R' && sensordata[4] == 'T' && sensordata[5] == 'D') {
+      stamp_type = F("EZO RTD");
+      stamp_version[0] = sensordata[7];
+      stamp_version[1] = sensordata[8];
+      stamp_version[2] = sensordata[9];
+
       return true;
 
       // unknown EZO stamp
