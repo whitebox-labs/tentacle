@@ -316,9 +316,9 @@ byte I2C_call() {  					//function to parse and call I2C commands.
       in_char = WIRE.read();              //receive a byte.
 
       if (in_char == 0) {                 //if we see that we have been sent a null command.
-        while (WIRE.available()) {
-          WIRE.read();  // some arduinos (e.g. ZERO) put padding zeroes in the receiving buffer (up to the number of requested bytes)
-        }
+        //while (WIRE.available()) {
+        //  WIRE.read();  // some arduinos (e.g. ZERO) put padding zeroes in the receiving buffer (up to the number of requested bytes)
+        //}
         WIRE.endTransmission();           //end the I2C data transmission.
         break;                            //exit the while loop.
       }
@@ -671,7 +671,7 @@ boolean parseInfo() {                  // parses the answer to a "i" command. re
 }
 
 
-#if !defined (ARDUINO_SAM_DUE) && !defined (ARDUINO_SAMD_ZERO)
+#if !defined (I2C_ONLY)
 void clearIncomingBuffer() {          // "clears" the incoming soft-serial buffer
   while (sSerial.available() ) {
     //Serial.print((char)sSerial.read());
@@ -683,7 +683,7 @@ void clearIncomingBuffer() {          // "clears" the incoming soft-serial buffe
 
 void scan(boolean scanserial) {                      // Scan for all devices. Set scanserial to false to scan I2C only (much faster!)
 
-#if !defined (ARDUINO_SAM_DUE) && !defined (ARDUINO_SAMD_ZERO)
+#if !defined (I2C_ONLY)
   if (scanserial) {
     Serial.println(F("Starting scan... this might take up to a minute."));
     Serial.println(F("(if only using i2c mode, use 'scani2c' to scan faster)"));
@@ -694,7 +694,7 @@ void scan(boolean scanserial) {                      // Scan for all devices. Se
 
   int stamp_amount = 0;
 
-#if !defined (ARDUINO_SAM_DUE) && !defined (ARDUINO_SAMD_ZERO)
+#if !defined (I2C_ONLY)
   for (channel = 8; channel < 127; channel++ )
 #else
   for (channel = 1; channel < 127; channel++ )
@@ -713,7 +713,7 @@ void scan(boolean scanserial) {                      // Scan for all devices. Se
     }
   }
 
-#if !defined (ARDUINO_SAM_DUE) && !defined (ARDUINO_SAMD_ZERO)
+#if !defined (I2C_ONLY)
 
   if (scanserial) {
     for (channel = 0; channel < 8; channel++) {
@@ -751,7 +751,7 @@ void intro() {                                 			       //print intro
   Serial.println( F("To read current config from attached stamps type 'scan'"));
   Serial.println( F(" (e.g. if you've changed baudrates)"));
   Serial.println( F("To read current config from attached I2C stamps only, type 'scani2c'"));
-#if !defined (ARDUINO_SAM_DUE) && !defined (ARDUINO_SAMD_ZERO)
+#if !defined (I2C_ONLY)
   Serial.println( F("TYPE CHANNEL NUMBER (Serial: 0-7, I2C: 8-127):"));
 #else
   Serial.println( F("TYPE CHANNEL NUMBER (I2C: 0-127):"));

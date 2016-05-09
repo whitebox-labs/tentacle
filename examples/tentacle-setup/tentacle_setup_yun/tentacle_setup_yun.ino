@@ -1,4 +1,5 @@
 // WhiteBox Labs -- Tentacle Shield -- Circuit Setup
+// https://www.whiteboxes.ch/tentacle
 //
 // Tool to help you setup multiple sensor circuits from Atlas Scientific
 // It will allow you to control up to 8 Atlas Scientific devices through 1 soft serial RX/TX line or more through the I2C bus
