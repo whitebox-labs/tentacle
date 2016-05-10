@@ -54,16 +54,18 @@
 SoftwareSerial sSerial(11, 10);          // RX, TX  - Name the software serial library sSerial (this cannot be omitted)
 // assigned to pins 10 and 11 for maximum compatibility
 
+const int s0 = 7;                        //Arduino pin 7 to control pin S0
+const int s1 = 6;                        //Arduino pin 6 to control pin S1
+const int enable_1 = 5;                   //Arduino pin 5 to control pin E on shield 1
+const int enable_2 = 4;                  //Arduino pin 4 to control pin E on shield 2
+
 #endif
 
 
 
-const int s0 = 7;                        //Arduino pin 7 to control pin S0
-const int s1 = 6;                        //Arduino pin 6 to control pin S1
-const int enable_1 = 5;	            	   //Arduino pin 5 to control pin E on shield 1
-const int enable_2 = 4;                  //Arduino pin 4 to control pin E on shield 2
 
-char sensordata[30];                     //A 30 byte character array to hold incoming data from the sensors
+
+char sensordata[32];                     //A 30 byte character array to hold incoming data from the sensors
 byte computer_bytes_received = 0;        //We need to know how many characters bytes have been received
 byte sensor_bytes_received = 0;          //We need to know how many characters bytes have been received
 int channel;                             //INT pointer for channel switching - 0-7 serial, 8-127 I2C addresses
@@ -96,12 +98,14 @@ boolean I2C_mode = false;		             //bool switch for serial/I2C
 
 
 void setup() {
+#if !defined (I2C_ONLY)
   pinMode(s1, OUTPUT);                   //Set the digital pin as output.
   pinMode(s0, OUTPUT);                   //Set the digital pin as output.
   pinMode(enable_1, OUTPUT);             //Set the digital pin as output.
   pinMode(enable_2, OUTPUT);             //Set the digital pin as output.
+#endif
 
-  Serial.begin(9600);                    // Set the hardware serial port to 38400
+  Serial.begin(9600);                    // Set the hardware serial port to 9600
   while (!Serial) ;                      // Leonardo-type arduinos need this to be able to write to the serial port in setup()
 #if !defined (I2C_ONLY)
   sSerial.begin(38400);                  // Set the soft serial port to 38400
@@ -293,10 +297,22 @@ byte I2C_call() {  					//function to parse and call I2C commands.
   sensor_bytes_received = 0;                            // reset data counter
   memset(sensordata, 0, sizeof(sensordata));            // clear sensordata array;
 
-  WIRE.beginTransmission(channel); 	                //call the circuit by its ID number.
-  WIRE.write(cmd);        			        //transmit the command that was sent through the serial port.
-  WIRE.endTransmission();          	                //end the I2C data transmission.
+  //Serial.print("beginning transmission... ");
 
+  WIRE.beginTransmission(channel); 	                //call the circuit by its ID number.
+  //Serial.print("transmit command: ");
+  //Serial.print(cmd);
+  WIRE.write(cmd);        			                    //transmit the command that was sent through the serial port.
+  //Serial.println("... ending transmission");
+  error = WIRE.endTransmission();          	                //end the I2C data transmission.
+
+  //Serial.println("command sent");
+  
+  if (error != 0) {
+    //Serial.print("i2c error ");
+    //Serial.println(error);
+  }
+  
   i2c_response_code = 254;
   while (i2c_response_code == 254) {      // in case the cammand takes longer to process, we keep looping here until we get a success or an error
 
@@ -309,17 +325,22 @@ byte I2C_call() {  					//function to parse and call I2C commands.
       delay(300);                         // all other commands: wait 300ms
     }
 
-    WIRE.requestFrom(channel, 48, 1); 	  //call the circuit and request 48 bytes (this is more then we need).
+    //Serial.println("requesting data from device");
+    
+    WIRE.requestFrom(channel, 32, 1); 	  //call the circuit and request 48 bytes (this is more then we need).
     i2c_response_code = WIRE.read();      //the first byte is the response code, we read this separately.
 
+    //Serial.print("response code: ");
+    //Serial.println(i2c_response_code);
+    
     while (WIRE.available()) {            //are there bytes to receive.
       in_char = WIRE.read();              //receive a byte.
 
       if (in_char == 0) {                 //if we see that we have been sent a null command.
-        //while (WIRE.available()) {
-        //  WIRE.read();  // some arduinos (e.g. ZERO) put padding zeroes in the receiving buffer (up to the number of requested bytes)
-        //}
-        WIRE.endTransmission();           //end the I2C data transmission.
+        while (WIRE.available()) {
+          WIRE.read();  // some arduinos (e.g. ZERO) put padding zeroes in the receiving buffer (up to the number of requested bytes)
+        }
+
         break;                            //exit the while loop.
       }
       else {
@@ -342,7 +363,7 @@ byte I2C_call() {  					//function to parse and call I2C commands.
         break;                         	 //exits the switch case.
 
       case 255:                      	 //decimal 255.
-        Serial.println( F("No Data"));   	//means there is no further data to send.
+        Serial.println( F("< no data"));   	//means there is no further data to send.
         break;                         	 //exits the switch case.
     }
   }
@@ -516,7 +537,7 @@ boolean check_i2c_connection() {                      // check selected i2c chan
   while (retries < 3) {
     retries++;
     WIRE.beginTransmission(channel);      // just do a short connection attempt without command to scan i2c for devices
-    WIRE.write((uint8_t)0);
+    //WIRE.write((uint8_t)0);
     error = WIRE.endTransmission();
 
     if (error == 0)                       // if error is 0, there's a device
@@ -524,9 +545,13 @@ boolean check_i2c_connection() {                      // check selected i2c chan
 
       int r_retries = 0;
       while (r_retries < 3) {
+        r_retries++;
+        //Serial.print("retry: ");
+        //Serial.println(r_retries);
+        
         cmd = "i";                         // set cmd to request info (in I2C_call())
         I2C_call();
-
+        
         if (parseInfo()) {
           return true;
         }
@@ -711,6 +736,9 @@ void scan(boolean scanserial) {                      // Scan for all devices. Se
   for (channel = 1; channel < 127; channel++ )
 #endif
   {
+
+    //Serial.println(channel);
+    
     delay(5);
     if (change_channel()) {
       stamp_amount++;
@@ -755,7 +783,6 @@ void scan(boolean scanserial) {                      // Scan for all devices. Se
 
 
 void intro() {                                 			       //print intro
-  Serial.flush();
   serialPrintDivider();
   Serial.println( F("Whitebox Labs -- Tentacle Shield - Stamp Setup"));
   Serial.println( F("For info type 'help'"));
