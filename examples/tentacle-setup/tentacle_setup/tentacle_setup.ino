@@ -327,7 +327,7 @@ byte I2C_call() {  					//function to parse and call I2C commands.
 
     //Serial.println("requesting data from device");
     
-    WIRE.requestFrom(channel, 32, 1); 	  //call the circuit and request 48 bytes (this is more then we need).
+    WIRE.requestFrom(channel, 32); 	  //call the circuit and request 48 bytes (this is more then we need).
     i2c_response_code = WIRE.read();      //the first byte is the response code, we read this separately.
 
     //Serial.print("response code: ");
