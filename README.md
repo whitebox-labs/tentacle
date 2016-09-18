@@ -1,9 +1,11 @@
 Tentacle Shield 
 ================
 
-![blabla](https://www.whiteboxes.ch/wp-content/uploads/2015/06/medium_schraeg_schatten1.jpg)
+![Tentacle Shield](https://www.whiteboxes.ch/wp-content/uploads/2015/06/medium_schraeg_schatten1.jpg)
 
-These are the hardware source files and examples for the Tentacle Shield - an arduino shield to interface with Atlas Scientific sensor circuits. 
+These are the hardware source files for the Tentacle Shield - an arduino shield to interface with Atlas Scientific sensor circuits. 
+
+Example code can be found here: https://github.com/whitebox-labs/tentacle-examples
 
 More info see here: https://www.whiteboxes.ch/tentacle
 
