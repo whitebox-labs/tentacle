@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name tentacle)(type KiCad)(uri C:\git_whitebox-labs\tentacle.pretty)(options "")(descr ""))
+)
