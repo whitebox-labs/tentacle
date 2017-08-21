@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name tentacle)(type Github)(uri https://github.com/bobc/tentacle.pretty)(options "")(descr ""))
+)
