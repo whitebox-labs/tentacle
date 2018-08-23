@@ -34,6 +34,7 @@ Individually isolated measurement circuits and communication lines prevent noise
 ## Support
 For customer support, please use the [contact form](https://www.whiteboxes.ch/contact/) on our website.
 
+If you find bug in the documentation, examples or the schematic, feel free to create an issue or even a pull request here on GitHub. 
 
 
 ## Open Source
@@ -41,8 +42,10 @@ The Tentacle Shield is [certified](http://certificate.oshwa.org/certification-di
 
 * [Hardware source files on GitHub](https://github.com/whitebox-labs/tentacle) `git clone https://github.com/whitebox-labs/tentacle.git`
 
+Made with KiCAD
 
-If you find bug in the documentation, examples or the schematic, feel free to create an issue or even a pull request here on GitHub. 
+[![KiCAD logo](https://github.com/whitebox-labs/tentacle/raw/master/docs/_media/kicad_logo_small.png)](http://kicad-pcb.org/)
+
 
 ## Buy
 * From [our store](https://www.whiteboxes.ch/) – we ship worldwide
