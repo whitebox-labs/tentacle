@@ -23,8 +23,13 @@ Individually isolated measurement circuits and communication lines prevent noise
 * [Examples Git Repository](https://github.com/whitebox-labs/tentacle-examples) `git clone https://github.com/whitebox-labs/tentacle-examples.git`
 * [Download all examples (zip)](https://github.com/whitebox-labs/tentacle-examples/archive/master.zip)
 
-
-
+## Downloads
+* [Tentacle Setup sketch](https://raw.githubusercontent.com/whitebox-labs/tentacle-examples/master/arduino/tentacle-setup/tentacle_setup/tentacle_setup.ino)
+* [T1.16 3D-Model (STL)](https://github.com/whitebox-labs/tentacle/blob/master/hardware/mechanical/tentacle_t1.STL)
+* [T1.16 3D-Model (STEP)](https://github.com/whitebox-labs/tentacle/blob/master/hardware/mechanical/tentacle_t1.STEP)
+* [T1.16 Mechanical Drawing (PDF)](https://github.com/whitebox-labs/tentacle/raw/master/hardware/mechanical/tentacle_t1_mechanical.pdf)
+* [BNC Connector Mechanical Drawing (PDF)](https://github.com/whitebox-labs/tentacle/raw/master/hardware/mechanical/bnc_mechanical.pdf)
+* [T1.16 Schematic (PDF)](https://github.com/whitebox-labs/tentacle/raw/master/hardware/tentacle_schematic.pdf)
 
 ## Support
 For customer support, please use the [contact form](https://www.whiteboxes.ch/contact/) on our website.
@@ -32,9 +37,8 @@ For customer support, please use the [contact form](https://www.whiteboxes.ch/co
 
 
 ## Open Source
-The Tentacle Shield is certified Open Source Hardware with UID CH000003. Schematics and layout are licensed under [Creative Commons BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/). Silkscreen graphics and the trade mark “Tentacle” are intellectual property of Whitebox Labs
+The Tentacle Shield is [certified](http://certificate.oshwa.org/certification-directory/) Open Source Hardware with UID CH000003. Schematics and layout are licensed under [Creative Commons BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/). Silkscreen graphics and the trade mark “Tentacle” are intellectual property of Whitebox Labs
 
-* [Download schematic](https://github.com/whitebox-labs/tentacle/raw/master/hardware/tentacle_schematic.pdf)
 * [Hardware source files on GitHub](https://github.com/whitebox-labs/tentacle) `git clone https://github.com/whitebox-labs/tentacle.git`
 
 
