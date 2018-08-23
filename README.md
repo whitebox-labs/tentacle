@@ -17,13 +17,28 @@ Individually isolated measurement circuits and communication lines prevent noise
 
 ## Examples
 * [Commented Examples](https://www.whiteboxes.ch/docs/tentacle-t1/#/examples)
-* [Examples Git Repository](https://github.com/whitebox-labs/tentacle-examples)
+  * [Continuous readings]()
+  * [Continuous, asynchronous readings]()
+  * [Interactive, bidirectional communications]()
+* [Examples Git Repository](https://github.com/whitebox-labs/tentacle-examples) `git clone https://github.com/whitebox-labs/tentacle-examples.git`
+* [Download all examples (zip)](https://github.com/whitebox-labs/tentacle-examples/archive/master.zip)
 
-If you find bug in the examples or the schematic, feel free to create an issue or even a pull request here on GitHub. For help and user support, please use the [contact form](https://www.whiteboxes.ch/contact/) on our website.
+
+
+
+## Support
+For customer support, please use the [contact form](https://www.whiteboxes.ch/contact/) on our website.
+
+
 
 ## Open Source
-License of pcb schematics and layout: http://creativecommons.org/licenses/by-sa/4.0/
-Silkscreen graphics and the trade mark "Tentacle Shield" are intellectual property of Whitebox Labs (please create your own graphics ;)).
+The Tentacle Shield is certified Open Source Hardware with UID CH000003. Schematics and layout are licensed under [Creative Commons BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/). Silkscreen graphics and the trade mark “Tentacle” are intellectual property of Whitebox Labs
+
+* [Download schematic](https://github.com/whitebox-labs/tentacle/raw/master/hardware/tentacle_schematic.pdf)
+* [Hardware source files on GitHub](https://github.com/whitebox-labs/tentacle) `git clone https://github.com/whitebox-labs/tentacle.git`
+
+
+If you find bug in the documentation, examples or the schematic, feel free to create an issue or even a pull request here on GitHub. 
 
 ## Buy
 * From [our store](https://www.whiteboxes.ch/) – we ship worldwide
