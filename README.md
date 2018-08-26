@@ -12,14 +12,14 @@ An Arduino shield to host and individually isolate up to 4 EZO Circuits from Atl
 Individually isolated measurement circuits and communication lines prevent noise and ground loops for precise measurements even in closed-loop systems.
 
 ## Getting Started
+* [Documentation Site](https://www.whiteboxes.ch/docs/tentacle-t1)
 * Download the [Setup Sketch](https://raw.githubusercontent.com/whitebox-labs/tentacle-examples/master/arduino/tentacle-setup/tentacle_setup/tentacle_setup.ino)
 * [Quick Start Tutorial](https://www.whiteboxes.ch/docs/tentacle-t1/#/quickstart)
 
-## Examples
-* [Commented Examples](https://www.whiteboxes.ch/docs/tentacle-t1/#/examples)
-  * [Continuous readings]()
-  * [Continuous, asynchronous readings]()
-  * [Interactive, bidirectional communications]()
+## Code Examples
+* [Continuous readings]()
+* [Continuous, asynchronous readings]()
+* [Interactive, bidirectional communications]()
 * [Examples Git Repository](https://github.com/whitebox-labs/tentacle-examples) `git clone https://github.com/whitebox-labs/tentacle-examples.git`
 * [Download all examples (zip)](https://github.com/whitebox-labs/tentacle-examples/archive/master.zip)
 
@@ -42,7 +42,7 @@ The Tentacle Shield is [certified](http://certificate.oshwa.org/certification-di
 
 * [Hardware source files on GitHub](https://github.com/whitebox-labs/tentacle) `git clone https://github.com/whitebox-labs/tentacle.git`
 
-Made with [![KiCAD logo](https://github.com/whitebox-labs/tentacle/raw/master/docs/_media/kicad_logo_small.png)](http://kicad-pcb.org/)
+Made with [![KiCAD logo](https://raw.githubusercontent.com/whitebox-labs/whitebox-docs/master/tentacle/t1/_media/kicad_logo_small.png)](http://kicad-pcb.org/)
 
 
 ## Buy
