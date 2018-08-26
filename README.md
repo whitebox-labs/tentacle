@@ -12,9 +12,9 @@ An Arduino shield to host and individually isolate up to 4 EZO Circuits from Atl
 Individually isolated measurement circuits and communication lines prevent noise and ground loops for precise measurements even in closed-loop systems.
 
 ## Getting Started
-* [Documentation Site](https://www.whiteboxes.ch/docs/tentacle-t1)
+* [Documentation Site](https://www.whiteboxes.ch/docs/tentacle/t1)
 * Download the [Setup Sketch](https://raw.githubusercontent.com/whitebox-labs/tentacle-examples/master/arduino/tentacle-setup/tentacle_setup/tentacle_setup.ino)
-* [Quick Start Tutorial](https://www.whiteboxes.ch/docs/tentacle-t1/#/quickstart)
+* [Quick Start Tutorial](https://www.whiteboxes.ch/docs/tentacle/t1/#/quickstart)
 
 ## Code Examples
 * [Continuous readings]()
